@@ -1,0 +1,33 @@
+---
+title: "Project 2"
+author: "Your Name"
+date: "2023-02-05"
+output:
+  html_document: default
+---
+
+```{r echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE}
+#set working directory
+setwd("~/Documents/workshop-1")
+
+#load in package
+library(tidyverse)
+
+```
+
+## Overview 
+
+This document provides high-level information on whether the minimum legal drinking age (MLDA) makes any difference in the likelihood of consuming alcohol. It includes: 
+
+  + Code to read in and clean data 
+  
+  + Summary Statistics 
+  
+  + Regression output
+
+```{r echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE}
+# read in MLDA data and assign MLDA data 
+mlda <- read_csv("mlda.csv")
+```
+
+

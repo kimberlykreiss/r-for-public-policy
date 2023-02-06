@@ -1,0 +1,349 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+### To: Director Christopher J. Maghi
+### From: Kimberly M. Kreiss 
+### Subject: The Minimum Legal Drinking Age
+
+&nbsp;
+
+## Summary 
+
+This document provides analysis around whether the minimum legal drinking age in the United States makes any difference in the likelihood of consuming alcohol. This analysis was prepared in preparation for next month's conference. I use data from the National Health Interview Survey to analyze if there is a jump in the likelihood of drinking after turning 21. This data also allows me to provide analysis to see if these effects differ by demographic groups, by level of drinking, and if the relationships are non-linear. Though it's important to keep in mind that survey data is often subject to measurement error--people often misreport outcomes like amount of alcohol consumer--this dataset provides important information for considering alcohol use. 
+
+My results suggest that the legal minimum drinking age has some effect on the likelihood of consuming alcohol, but the causal effect of these results should be interpreted with caution due to limitations of the dataset and research design. These effects are most pronounced among men. I go into these facets of the analysis in detail below. 
+
+
+
+<!-- I need to prepare for next month’s conference on the minimum legal drinking age (MLDA), and  -->
+<!-- I’m really at a loss to know what our position should be.  Indeed, I don’t even know the basic facts.  -->
+
+<!-- The MLDA is 21 in the U.S., but there seems to be plenty of drinking by people under the MLDA.   -->
+<!-- Does the MLDA make any difference?  Does crossing the 21-year-old threshold really make it  -->
+<!-- more likely that someone will drink?  -->
+
+<!-- I understand that we have access to some data from the National Health Interview Survey that  -->
+<!-- contains self-reported drinking by young men and women, some younger and some older than 21.   -->
+<!-- (We all the know the problems with self-reports of drinking, but the survey data seems like a  -->
+<!-- sensible place to start.)   -->
+
+<!-- Can you look at these data to see if there is a “jump” in the likelihood of drinking at age 21?  I’m  -->
+<!-- being a bit vague here, but I guess that the likelihood of drinking is increasing as age increases  -->
+<!-- from say 18 years of age to say just shy of 21 years of age, but I’m not sure what the function looks  -->
+<!-- like. And from 21 onward the function may be increasing, or may be flat, or?  The question I’m  -->
+<!-- interested in is whether the function jumps up by a large amount at age 21?  At age 21, does the  -->
+<!-- likelihood of drinking jump up by 5%? By 10%?  More than 10%?  Less than 5%?  I’m hoping that  -->
+<!-- estimates of the size of this jump will help me think about what would happen if we decreased the  -->
+<!-- MLDA down to 20, or increased it above 21.  -->
+
+<!-- A few other things:  -->
+
+<!-- (1) Drinking “some alcohol” is one thing, but drinking “regularly” or “heavily” are quite other  -->
+<!-- matters. Can you say something about the jump at age 21 for different levels of alcohol use?  -->
+
+<!-- (2) Are there important differences in the effect MLDA on the likelihood of drinking for specific  -->
+<!-- groups (say men vs. women, or blacks vs. Hispanics vs. whites, or ... )?  -->
+
+<!-- (3) And of course, you should do what you can to control for other factors.  -->
+
+<!-- Thanks, and I look forward to seeing what you come up with.  -->
+
+```{r setup, include=FALSE}
+library(haven)
+library(tidyverse)
+library(kableExtra)
+library(stargazer)
+library(rdrobust)
+library(estimatr)
+library(textreg)
+mlda <- read_dta("mlda_507.dta")
+
+```
+
+## Descriptive Statistics 
+
+The data come from the National Health Interview Survey and provide information on the respondents age, sex, race,education level, employment status, marriage status, and drinking habits. It reports information about whether the respondent self-reports drinking alcohol as well as the percentage of days that a respondent drinks alcohol. The data show that most people (62.5%) report drinking alcohol--Table 1 in the appendix provides more information about the composition of the sample. It is important to note that there is a sizable share of the sample that reports not drinking at all--important outliers in this analysis. Table 2 provides more information about drinking statistics, namely information about years from the minimum legal drinking age as well as drinking frequency. 
+
+
+```{r, eval=T, echo=F}
+
+summ_stats <- mlda %>% 
+   summarise_all(.funs=c(mean,sd, median,min, max)) %>% 
+  pivot_longer(cols=hs_diploma_fn1:student_fn5, names_to = "values") %>% 
+  mutate(statistic = case_when(str_detect(values, "fn1") ~ "Mean", 
+                               str_detect(values, "fn2") ~ "Standard Deviation", 
+                               str_detect(values, "fn3") ~ "Median",
+                               str_detect(values, "fn4") ~ "Min", 
+                               str_detect(values, "fn5") ~ "Max"), 
+         values = str_sub(values,1,-5)) %>% 
+  pivot_wider(names_from = "statistic", values_from = "value") %>% 
+  rename(Names=values)
+
+shares <- summ_stats %>% 
+  filter(!(Names %in% c('days_21','perc_days_drink'))) %>% 
+  rename(Share = Mean) %>% 
+ mutate_if(is.numeric, ~round(.,digits=3)*100) %>% 
+  select(Names,Share) 
+
+mlda <- mlda %>% 
+  mutate(lt_21 = if_else(days_21<0, 1,0), 
+         years_21 = days_21/365, 
+         age=years_21+21, 
+         decile_days = ntile(perc_days_drink,4))
+
+drinking_stats <- summ_stats %>% 
+    filter((Names %in% c('days_21','perc_days_drink'))) %>% 
+   mutate_if(is.numeric, ~round(.,digits=3)) %>% 
+  mutate(Mean=if_else(Names=="days_21", Mean/365,Mean),
+         `Standard Deviation` =if_else(Names=="days_21",`Standard Deviation`/365,`Standard Deviation`), 
+         Min=if_else(Names=="days_21", Min/365,Min), 
+         Median=if_else(Names=="days_21", Median/365,Median),
+         Max=if_else(Names=="days_21", Max/365,Max), 
+         Names=if_else(Names=="days_21", "Years From 21", "Percent Days Drank")) 
+
+kableExtra::kable(drinking_stats, "latex", digits=1, booktabs=T, caption="Drinking Patterns",align = "l") %>%
+  kable_styling(latex_options = c("striped", "hold_position") )
+
+```
+
+Moreover, Table 1 shows that the average percent of days that a respondent drank was about 10%. Still, there is a large standard deviation around this number, suggesting a fairly wide spread in the share of days drinking. Moreover, the median is just 2.7%, suggesting that the data are left skewed. Next, the figure below shows the share of drinkers within each frequency quartile that are less than 21. Underage drinkers are represented among all quartiles, but have a slightly hire representation among those in the first quartile. This doesn't suggest that underage drinkers are more likely to drink heavily than non-underage drinkers. 
+
+```{r, eval=T, echo=F}
+
+
+
+# drinking_rate_bar <- ggplot(mlda,aes(age>=21,drinks_alcohol,fill=age>=21)) +
+#   geom_bar( stat = "summary", fun = "mean") +
+#   ggthemes::theme_economist_white() + 
+#   scale_x_discrete(labels=c("Age < 21","Age >= 21")) +
+#   theme(legend.position = "none") + 
+#   labs(title = "Share that Drinks by Minimum Legal Drinking Age", y = "Share", x="")
+# drinking_rate_bar
+
+### Summary Statistics or visuals for days from 21 as well as how often people drink 
+ # Make a visual for frequency of drinking by age buckets 
+ggdrink <- mlda %>% 
+ filter(perc_days_drink>0 ) %>%
+  mutate(lt_21_factor=factor(lt_21),
+         fourths = ntile(perc_days_drink,4)) %>%
+  ggplot(aes(x=fourths,fill=lt_21_factor)) +
+  geom_bar(position = "fill") + 
+  ggthemes::theme_economist_white()+
+  labs(x="Quartiles of Drinking Frequency", y = "", title = "Age Distribution of Drinkers within 
+       Drinking Frequency Quartiles", 
+       caption = "Note: (Non-Drinkers omitted)") + 
+  theme(legend.position = "right") + 
+  scale_fill_discrete(name = "Less than 21")
+ggdrink
+
+
+```
+
+
+I turn next to regression analysis and make use of a linear probability model to estimate how age affects the likelihood of drinking alcohol. I start with a simple regression which is shown in column 1 in the regression table below. I start by regressing a binary variable that indicates whether the respondent is below age 21 on a binary outcome variable for if the respondent consumes alcohol. Indeed, this regression suggests a large negative effect on the likelihood of drinking if a respondent is under the drinking age. However, it's plausible that there is a non-linear relationship between age under 21 and whether the respondent drinks. For example, it's likely that a person who is 10 years old will have a much lower likelihood of drinking than someone who is 20.5 years old. This may be driving the results. As a result, the next two columns in the table show different specifications, which have age (in years) as the dependent variable and a quadratic to allow for the relationship with age to be non-linear. Indeed, when adding these in, it appears that an additional year in age increases the likelihood that a respondent drinks. So far, these results are consistent with the minimum legal drinking age having a negative effect on the likelihood that a person drinks. The quadratic term shows that the relationship is non-linear: in this specification, the effect of age is diminishing. That is, a one-year increase for older people has a less strong effect than a one-year increase for younger people on the likelihood of drinking. I estimated this with a cubic term, and the results suggest overfitting, suggesting that a quadratic is the best to use. The output is included in the appendix. It is important to note, however, that the R-squared's and adjusted R-squared's for these regressions are all very tiny, suggesting that these independent variables do not explain a significant amount of the variation of the dependent variable. 
+
+
+```{r, eval=T,echo=F,message=F,warning=F}
+
+
+# on less than 21 
+lpm1a <- lm(drinks_alcohol ~ lt_21, mlda)
+
+```
+
+
+```{r, echo=F,eval=T,results='asis',warning=F,message=F}
+# Just normal Baseline regressions 
+mlda$under21 <- ifelse(mlda$age<21,1,0)
+# on age groups 
+mlda <- mlda %>% 
+  mutate(age_groups = case_when(age < 18 ~ "0-18", 
+                                 between(age,18,18.5) ~ "18-18.5", 
+                                 between(age,18.5,19) ~ "18.5-19", 
+                                 between(age,19,19.5) ~ "19-19.5", 
+                                 between(age,19.5,20) ~ "19.5-20", 
+                                 between(age,20,20.5) ~ "20-20.5", 
+                                 between(age,20.5,21) ~ "20.5-21", 
+                                 between(age,21,21.5) ~ "21-21.5", 
+                                 between(age,21.5,22) ~ "21.5-22", 
+                                between(age,22,22.5) ~ "22-22.5",
+                                between(age,22.5,23) ~ "22.5,23",
+                                between(age,23,23.5) ~ "23-23.5",
+                                between(age,23.5,24) ~ "23.5-24",
+                                TRUE ~ "24+"))
+
+
+# on age 
+lpm1 <- lm(drinks_alcohol ~ age, mlda )
+#summary(lpm1)
+
+
+# on just those less than 21 age groups 
+lpm_agegroups <- lm(drinks_alcohol ~ age_groups, mlda )
+#summary(lpm_agegroups)
+
+mlda$age_sq <- (mlda$age)^2
+#squared
+lpm2 <- lm(drinks_alcohol ~ age + age_sq, data = mlda)
+#summary(lpm2, robust = T)
+
+# ggplot(mlda, aes(age, drinks_alcohol)) +
+#   stat_smooth(method="lm", formula= y ~ poly(x,2))
+
+# cubic
+mlda$age_cu <- (mlda$age)^3
+
+lpm3 <- lm(drinks_alcohol ~ age + age_sq + age_cu, data = mlda)
+#summary(lpm3, robust = T)
+
+#sqrt(mean(lpm3$residuals^2))
+
+# ggplot(mlda, aes(age, drinks_alcohol)) +
+#   stat_smooth(method="lm", formula= y ~ poly(x,3)) +
+#   ggthemes::theme_economist_white()
+
+#compare all all-age model
+stargazer(lpm1a,lpm1,lpm2, type="latex",dep.var.labels="Probability of Drinking",column.sep.width = ".005pt",font.size = "small", header=FALSE, title = "Effect of Age on Probability of Drinking Alcohol" )
+
+
+```
+\newpage
+For my final specification, I chose a model where the dependent variables include age, an indicator variable for being less than the legal drinking age, and interaction terms for age and the minimum legal drinking age. I also include polynomials to allow for non-linearity. The results from this specification are presented below in table 2. This specification allows us to control for the effect of age and to allow the effect of age to be non-linear. Moreover, it allows us to control for the effect of the minimum legal drinking age, and the interaction terms allows us to capture that there is a separate relationship for the effect of age on the likelihood of drinking before age 21 and it is non-linear. Indeed, I believe that this specification is the best option, and as such use it going forward. Indeed, this specification suggests that there is a small effect of age on the likelihood of drinking and that it is non-linear. In particular, the regression tells us that the effect of an increase in age for an older person on the probability of drinking is smaller than the effect for a younger person. Moreover, the specification suggests that the minimum legal drinking age has a negative effect on the likelihood of drinking, but has less of an effect for those just before the cutoff. As an example, I can now provide some estimates of how the likelihood of drinking changes as a person ages from 19.5 to 20 and from 20 to 20.5. The former shows a change of .0346 and the latter shows a change of .0153. 
+
+
+
+```{r,results='asis',message=F,warning=F, echo=F, eval =F}
+# Question 3(c)
+mlda$under21 <- ifelse(mlda$age<21,1,0)
+estimatingthejump_1 <- lm(drinks_alcohol ~ age + age_sq + under21 + under21*age + under21*age_sq, data = mlda)
+#summary(estimatingthejump_1, robust=T)
+predict(estimatingthejump_1,data.frame(under21=1,age=18,age_sq=18^2))
+predict(estimatingthejump_1,data.frame(under21=c(1,0),age=c(20.9,21),age_sq=c(20.9^2,21^2)))
+predictions_1 <- predict(estimatingthejump_1,data.frame(under21=c(1,1,1,1,0,0),age=c(10,19.5,20,20.5,21,30),age_sq=c(10^2,19.5^2,20^2,20.5^2,21^2,30^2)), se.fit=T, vcov. = sandwich)
+#print(predictions_1)
+# 19.5 to 20
+#predictions_1$fit[3]-predictions_1$fit[2]
+# 20 to 20.5
+#predictions_1$fit[4]-predictions_1$fit[3]
+
+stargazer(estimatingthejump_1, type="latex",dep.var.labels="Probability of Drinking",column.sep.width = ".005pt",font.size = "small", header=FALSE, title = "Effect of Age on Probability of Drinking Alcohol" )
+```
+
+Before adding in control variables and considering other specifications, I make use of a regression discontinuity design. A regression discontinuity design allows us to see if there is a big jump in the likelihood of drinking in the period immediately after someone turns 21 and the period immediately before. The graph below shows the results of the regression discontinuity analysis. The visual shows results that are consistent with the previous analysis. Indeed, it seems that there is a jump in the likelihood of drinking after age 21, with each year after that having little effect on the probability of drinking alcohol. Indeed, this effect is estimated to be roughly an 8% increase in the likelihood. 
+
+
+```{r,eval=T,echo=F,warning=F,message=F}
+# determine magnitude of discontinuity
+rdplot(mlda$drinks_alcohol,mlda$age,c=21)
+#rdrobust(mlda$drinks_alcohol,mlda$age,c=21)
+#summary(rdrobust(mlda$drinks_alcohol,mlda$age,c=21))
+
+
+
+
+```
+
+Finally, I include a small number of demographic controls. Indeed, when including these controls, two important implications emerge. First, being male has a large, positive and statistically significant effect on the likelihood of drinking alcohol, as does being employed. Being married has a large, negative, and statistically negative effect on the likelihood of drinking. Finally, being a student, surprisingly, has little effect on the likelihood of drinking alcohol. Estimates from this specification are available in the appendix. 
+
+
+```{r,echo=F,eval=F}
+# Just normal Baseline regressions 
+
+# on age 
+lpm1 <- lm(drinks_alcohol ~ age  + hs_diploma + hispanic + black + employed + student + male + married, mlda )
+summary(lpm1)
+
+
+# on just those less than 21 age groups 
+lpm_agegroups <- lm(drinks_alcohol ~ age_groups + hs_diploma + hispanic + black + employed + student + male + married, mlda )
+summary(lpm_agegroups)
+
+mlda$age_sq <- (mlda$age)^2
+#squared
+lpm2 <- lm(drinks_alcohol ~ age + age_sq + hs_diploma + hispanic + black + employed + student + male + married, data = mlda)
+summary(lpm2, robust = T)
+
+
+# cubic
+mlda$age_cu <- (mlda$age)^3
+
+lpm3 <- lm(drinks_alcohol ~ age + age_sq + age_cu  + hs_diploma + hispanic + black + employed + student + male + married, data = mlda)
+summary(lpm3, robust = T)
+
+sqrt(mean(lpm3$residuals^2))
+
+
+#compare all all-age models
+stargazer(lpm1,lpm2,lpm3, type="text",dep.var.labels="Probability of Drinking")
+
+
+```
+
+Finally, I analyze how the minimum legal drinking age affects the probability of drinking alcohol for different types of drinkers. I consider three groups: a low drinking group, for people who drink 1 day or less of the week; a moderate drinking group, for people who drink 2 to 4 days of the week; and a heavy drinking group, for those who drink 5 days or more a week. Overall, I find the highest effect of age on those who are low drinkers followed by moderate drinkers. The specification results are included in the appendix. Indeed, this makes sense: heavy drinkers are likely problem drinkers and people who won't be deterred by any type of policy intervention. 
+
+
+```{r,eval=T,echo=F}
+## Run a regression with perc_days_drink as the outcome 
+mlda <- mlda %>% 
+  mutate(drink_cat = case_when(
+    perc_days_drink==0~"no_drinker",
+    perc_days_drink>0&perc_days_drink<=14.3~"low_drinker",
+    perc_days_drink>14.3&perc_days_drink<=57~"medium_drinker",
+    perc_days_drink>57~"heavy_drinker"), 
+    heavy_drinker = if_else(drink_cat=="heavy_drinker", 1,0), 
+    mod_drinker = if_else(drink_cat=="medium_drinker",1,0), 
+    low_drinker = if_else(drink_cat=="low_drinker", 1, 0), 
+    zero_drinker = if_else(drink_cat=="no_drinker",1,0))
+
+## create a category variable for what type of drinking (ie, heavy drinker, etc) and then do some other regressions 
+heavy_lpm <- lm(heavy_drinker ~ age + age_sq + hs_diploma + hispanic + black + employed + student + male + married + under21, data=mlda)
+#summary(heavy_lpm, robust = T)
+
+mod_lpm <- lm(mod_drinker ~ age + age_sq + hs_diploma + hispanic + black + employed + student + male + married + under21, data=mlda)
+#summary(mod_lpm, robust = T)
+
+low_lpm<- lm(low_drinker ~ age + age_sq + hs_diploma + hispanic + black + employed + student + male + married + under21, data=mlda)
+#summary(low_lpm, robust = T)
+
+```
+
+ 
+Overall, my results suggest that the minimum legal drinking age has some effect in lowering the likelihood that someone consumes alcohol. Still, caution should be employed when interpreting these results, especially as causal effects. First, there are some limitations to the data, including that people may under report whether they consume alcohol. Moreover, the control variables are limited and the R-squared's and adjusted R-squared's are low for all the specifications, suggesting that there is substnatial omitted variable bias. Alcohol consumption is correlated with many regional and cultural variations as well that we are unable to control for in our data. Moreover, an issue with an regression discontinuity design is that it inherently sorts people into two groups. In this case, people are divided into groups of those who can and cannot legally consume alcohol. This policy has been in place for some time; indeed it's plausible that drinking alcohol after 21 is just an accepted social norm, whereas drinking it before 21 is not. Thus, it is not clear that lowering the legal drinking age to a number like 20 would have any meaningful effect on the effect of the minimum legal drinking age.   
+
+\newpage
+
+## Appendix 
+
+```{r, echo=F, warning=F,message=F, results='asis'}
+
+## Goes into appendix
+
+kableExtra::kable(shares, "latex", digits=1, booktabs=T, caption="Sample Demographics",
+    col.names = linebreak(c("Demographic", "Percent"), align = "l")) %>%
+  kable_styling(latex_options = c("striped", "hold_position") )
+
+# cubic
+mlda$age_cu <- (mlda$age)^3
+
+lpm3 <- lm(drinks_alcohol ~ age + age_sq + age_cu, data = mlda)
+#compare all all-age models
+stargazer(lpm3, type="latex",dep.var.labels="Probability of Drinking with Cubic Terms",header=F)
+
+lpm2 <- lm(drinks_alcohol ~ age + age_sq + hs_diploma + hispanic + black + employed + student + male + married, data = mlda)
+#summary(lpm2, robust = T)
+#compare all all-age models
+stargazer(lpm2, type="latex",dep.var.labels="Probability of Drinking with Demographic Controls")
+
+stargazer(heavy_lpm, mod_lpm,low_lpm, type="latex",dep.var.labels="Probability of Drinking by drinker Frequency", header=F)
+```
+
+
+
+
+
+
+
+

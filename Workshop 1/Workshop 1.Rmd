@@ -1,0 +1,389 @@
+---
+title: 'tigeRs: Princeton''s R Group'
+author: "Kim Kreiss & Angela Li"
+date: "Workshop 1"
+output:
+  beamer_presentation: 
+    slide_level: 2
+ #   toc: true
+---
+
+# Introduction 
+
+## R/RStudio/RMarkdown and Why? 
+
++ R is a statistical programming language great for data analysis and data science applications 
+
++ RStudio is an Integrated Development Environment (IDE)--basically just a nice interface for using R, writing/running code, and interacting with data and files
+
++ RMarkdown is a file format that lets you combine R code, data, and text that outputs a document, report, slideshow, etc. 
+
+## Cool things you can do with R 
+
++ Easy and intuitive management of code and data
+
++ Excellent visualization capabilities, including charts, maps, interactive dashboards etc. 
+
++ Easily output analysis into a digestible format
+
++ can handle a wide arrange of statistical analysis, data analysis, and data science applications 
+
+## Some examples 
+
+!['Source: r-graph-gallery.com'](scatterplot-fitted.png)
+
+## Some examples 
+
+![](gg_nyc_pumas copy.png)
+
+
+## Some examples
+
+!['Source: r-graph-gallery.com'](choropleth-map.png)
+
+## Some examples 
+
+!['Source: r-graph-gallery.com'](network-map.png)
+
+## Some examples
+
+!['Source: r-graph-gallery.com'](web-lollipop-plot-with-R-the-office.png)
+
+## Some examples 
+
+!['Source: https://rmarkdown.rstudio.com/gallery.html'](Image 2-4-23 at 1.07 PM.jpeg)
+
+# Goals 
+
+## Today's workshop 
+
++ Learn the basics and fundamentals of working in RStudio and RMarkdown 
+
++ Learn a framework for reproducible analysis that can be applied to homework, work assignments, etc. 
+
++ Go through an analysis together to combine these 
+
++ Leave with a file that can serve as a template for future work 
+
+## RStudio 
+
+![](Image 2-4-23 at 2.11 PM.jpeg)
+
+## R Scripts and R Markdown 
+
++ R Script (workshop-1.R)
+   +  A file that only runs normal R code
+   
++ RMarkdown Script (workshop-1.Rmd)
+   + A different file type that combines code and text to produce a document that includes both 
+   
++ Both a .R and .Rmd file are provided 
+
+
+## Reproducible Analysis 
+
+![Source: Russo, Righeli, Angelini](This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png)
+
+## Why you should care 
+
++ It will save you time and make analyses easy to update/run again 
+
++ Eliminates room for mistakes 
+
++ Easily shared and validated by others--especially crucial for analysis informing public policy
+
+## What to keep in mind for our purposes 
+
++ The ideal: someone else (including and especially you, at a later date) should be able to
+
+    (1) Read your code file and understand what you did and why (code comments are everyone's friend)
+    (2) Re-run your code without making any edits and produce the same results 
+    
+    
++ In practice: 
+
+    + Any data cleaning, transformations to the data, edits, analyses, etc. should be documented in an R script 
+    + No edits should be made manually!!! (don't edit your data in excel, don't manually enter or copy/paste output, etc.)
+
+## Tidyverse
+
+
+:::: {.columns}
+::: {.column width="60%"}
+![](Image 2-5-23 at 2.35 PM.jpeg)
+:::
+::: {.column width="40%"}
++ A collection of R packages made for data/statistical analysis with the same underlying structure, intuitive syntax and philosophy
+
++ Great for working with and manipulating a wide variety of datasets 
+
++ We will use tidyverse today
+:::
+::::
+
+## Tidyverse 
+
+![](tidyverse-method.png)
+
+# Learn!
+
+## What we will do today 
+
++ Go through and reproduce a shortened version of Project 2 from last semester's 507c class 
+
++ use tidyverse to:
+
+  + read in data
+  + clean/transform data 
+  + generate summary statistics
+  + run a regression model 
+  + output results in a summary memo document
+
+## Files 
+
++ workshop-1.R 
+
+  + this is just an R script with all the code for your reference later 
+
++ workshop-1-skeleton.Rmd
+
+  + an RMarkdown code skeleton for you to fill out as we go 
+
++ workshop-1-solutions.Rmd
+
+  + the same RMarkdown code file as above, but with all the code and solutions 
+  
+## RMarkdown File Structure: Overview 
+
+![](Image 2-5-23 at 2.59 PM.jpeg)
+
+## RMarkdown File Structure: YAML  
+
+![](yaml-rmd.jpeg)
+
+## RMarkdown File Structure: Code 
+
+![](code-chunks-rmd.jpeg)
+
+## RMarkdown File Structure: Text
+
+![](text-rmd.jpeg)   
+
+## Rmarkdown: Output 
+
+![](Image 2-5-23 at 3.18 PM.jpeg)
+
+## R Programming Basics 
+
+\tiny
+```{r, echo=T,eval=T}
+# object assignment 
+# (strings, numbers, dataframes, lists, etc.)
+this_is_an_object <- "object"
+
+# this is how you inspect an object 
+this_is_an_object
+
+# another assignment 
+x <- 2^3 
+
+# another inspection 
+x
+
+```
+
++ Naming is case sensitive 
+
++ Must start with a letter and have no spaces 
+
++ i_suggest_using_this_format
+
++ ButSomePeopleDoThis 
+
++ objects will be loaded into your environment on the right!
+
+## Set Up: Working Directory, Package Loading
+
+```{r, echo=T, eval=F, message=F,warning=F}
+
+#set working directory
+setwd("~/Documents/workshop-1")
+
+# you will only do this once ever
+# to install the package
+install.packages("tidyverse")
+
+# you will do this whenever 
+# you need to load in and use tidyverse
+library(tidyverse)
+```
+
+```{r, echo=F,eval=T,warning=F,message=F}
+library(tidyverse)
+```
+
+
+## Read in and inspect our data 
+
+\tiny
+
+```{r echo=T, eval=T, message=F,warning=F}
+mlda <- read_csv("mlda.csv")
+mlda
+```
+
+
++ Use the viewer to view more of the data (click on it or run code below)
+
+
+```{r echo=T, eval=F, message=F,warning=F}
+View(mlda)
+```
+
+## Some quick data exploration 
+
+```{r}
+mean(mlda$student)
+mean(mlda$drinks_alcohol)
+
+```
+
+
+## Transform, explore, and visualize 
+
+!["Source: https://hbctraining.github.io/Intro-to-R/lessons/tidyverse_data_wrangling.html"](Image 2-5-23 at 4.22 PM.jpeg)
+
+## Transform and explore
+\tiny
+```{r}
+# add a new variable for age in years 
+mlda <- mutate(mlda, age_years = 21 + days_21/365)
+
+# filter to just underage drinkers 
+underage <- filter(mlda, days_21 < 0 & drinks_alcohol == 1)
+
+# demographic characteristics of underage drinkers 
+summ_stats_underage <- summarise(underage, 
+          min_age = min(age_years),
+          mean_age = mean(age_years), 
+          median_age = median(age_years),
+          mean_perc_days_drink = mean(perc_days_drink), 
+          median_perc_days_drink = median(perc_days_drink))
+
+summ_stats_underage
+```
+## Export as a table 
+\tiny
+```{r, eval=T,echo=T}
+library(kableExtra)
+
+kableExtra::kable(summ_stats_underage,
+      digits=1, caption="Drinking Patterns among Underage Drinkers", 
+      col.names = c("Minimum Age", "Mean Age", "Median Age", "Avg Percent Days Drank", 
+                    "Median Percent Days Drank")) 
+```
+
+## Use the pipe operator to combine all of these into one 'dplyr chain'
+
++ The pipe operate `%>%` takes output from on function and 'pipes' it into another function 
+
+\tiny
+```{r, eval=F}
+x <- paste("A", "String")
+print(x)
+
+print(paste("A", "String"))
+
+paste("A", "String") %>% 
+  print(.)
+```
+
+
+```{r}
+mutate(mlda, age_years = 21 + days_21/365) %>% 
+  filter(., days_21 < 0 & drinks_alcohol == 1) %>%  
+  summarise(.,min_age = min(age_years),
+          mean_age = mean(age_years), 
+          median_age = median(age_years),
+          mean_perc_days_drink = mean(perc_days_drink), 
+          median_perc_days_drink = median(perc_days_drink)) %>% 
+  kableExtra::kable(.,digits=1,
+                    caption="Drinking Patterns among Underage Drinkers", 
+                    col.names = c("Minimum Age", "Mean Age", "Median Age", 
+                                  "Avg Percent Days Drank", "Median Percent Days Drank"))
+
+```
+
+## Try yourself 
+
++ Create a variable that denotes someone as a heavy drinker if they drink more than half the week 
++ Use the skeleton code below to calculate the share of students who are heavy drinkers that are Black, Hispanic, White, or Male
+
+```{r, eval=F}
+mutate(mlda, heavy_drinker == ...) %>%
+filter(., heavy_drinker == ... & ...) %>%  
+  summarise(., 
+            ... = mean(...))) 
+```
+
+## Run a Model 
+
++ Use a linear probability model to predict the effect of age in years on the likelihood of drinking alcohol 
+
+\tiny
+```{r}
+# on age with a control for gender 
+lpm1 <- lm(formula = drinks_alcohol ~ age_years + male, data = mlda )
+summary(lpm1)
+```
+## Exercise 
+
++ Now, add an age squared variable to your dataset 
+
++ Then add additional demographic controls to your model 
+
+\tiny
+
+```{r,eval=T,echo=T}
+lpm2 <- mutate(mlda, age_sq = age_years^2) %>% 
+  lm(formula = drinks_alcohol ~ age_years + age_sq + black + hispanic + male, 
+     data = .)
+```
+
+
+## Use Stargazer to output your results 
+
+\tiny
+
+```{r, echo=T,eval=F,message=F,warning=F,results='asis'}
+library(stargazer)
+
+stargazer(lpm1, lpm2, 
+          type = "latex", 
+          dep.var.labels = "Probabilty of Drinking with Controls", 
+          header=F)
+```
+
+## Output model results 
+
+\tiny
+```{r, echo=F,eval=T,message=F,warning=F,results='asis'}
+library(stargazer)
+stargazer(lpm1, lpm2, type = "latex", dep.var.labels = "Probabilty of Drinking with Controls", header=F)
+```
+
+## Visualize the discontinuity 
+
+```{r, warning=F,message=F}
+library(rdrobust)
+rdplot(mlda$drinks_alcohol,mlda$age_years,c=21)
+```
+
+# Citations 
+
+Russo, Francesco & Righelli, Dario & Angelini, Claudia. (2016). Advantages and Limits in the Adoption of Reproducible Research and R-Tools for the Analysis of Omic Data. Lecture Notes in Computer Science. 9874. 245-258. 10.1007/978-3-319-44332-4_19. 
+
+
+
+
+
