@@ -5,7 +5,10 @@ date: "Workshop 1"
 output:
   beamer_presentation: 
     slide_level: 2
- #   toc: true
+header-includes:
+  \usepackage{float}
+  \usepackage{booktabs}
+  \usepackage{colortbl}
 ---
 
 # Introduction 
@@ -214,6 +217,7 @@ install.packages("tidyverse")
 install.packages("kableExtra")
 install.packages("stargazer")
 install.packages("knitr")
+install.packages("rdrobust")
 
 # you will do this whenever 
 # you need to load in and use tidyverse
@@ -221,6 +225,7 @@ library(tidyverse)
 library(kableExtra)
 library(stargazer)
 library(knitr)
+library(rdrobust)
 ```
 
 ```{r, echo=F,eval=T,warning=F,message=F}
@@ -260,11 +265,21 @@ mean(mlda$drinks_alcohol)
 
 ## Tidyverse Function Syntax 
 
+```{r, echo=F,warning=F,message=F}
+library(kableExtra)
+df <- data.frame(Function = c("select()", "mutate()", "filter()", "rename()", "summarise()", "if_else"), 
+                 Syntax = c("select(df, var1, var2, ...)", "mutate(df, new_var = old_var + 5)", "filter(df, var1 == value)", "rename(df, new_name = old_name)", 
+                            "summarise(df, mean_var1 = mean(var1))", "if_else(condition, true, false)"))
+kable(df, format = 'latex', booktabs=T, caption = "Useful dplyr functions and syntax") %>% 
+ kable_styling(latex_options = "striped")
+```
+
+
 ## Transform and explore
 \tiny
 ```{r}
-# add a new variable for age in years 
-mlda <- mutate(mlda, age_years = 21 + days_21/365)
+# add a new variable for age in years and a heavy drinker variable if they drink more than 50% 
+mlda <- mutate(mlda, age_years = 21 + days_21/365, heavy_drinker = if_else(perc_days_drink > 75, 1, 0))
 
 # filter to just underage drinkers 
 underage <- filter(mlda, days_21 < 0 & drinks_alcohol == 1)
@@ -278,17 +293,9 @@ summ_stats_underage <- summarise(underage,
           median_perc_days_drink = median(perc_days_drink))
 
 summ_stats_underage
-```
-## Export as a table 
-\tiny
-```{r, eval=T,echo=T, warning=F,message=F}
-library(kableExtra)
 
-kableExtra::kable(summ_stats_underage,
-      digits=1, caption="Drinking Patterns among Underage Drinkers", 
-      col.names = c("Minimum Age", "Mean Age", "Median Age", "Avg Percent Days Drank", 
-                    "Median Percent Days Drank")) 
 ```
+
 
 ## Use the pipe operator to combine all of these into one 'dplyr chain'
 
@@ -305,57 +312,131 @@ paste("A", "String") %>%
   print(.)
 ```
 
++ The period denotes where the previous output should be the argument in the new function
+
+
 
 ```{r}
-mutate(mlda, age_years = 21 + days_21/365) %>% 
+summ_stats <- mutate(mlda, age_years = 21 + days_21/365, heavy_drinker = if_else(perc_days_drink > 75, 1, 0)) %>% 
   filter(., days_21 < 0 & drinks_alcohol == 1) %>%  
   summarise(.,min_age = min(age_years),
           mean_age = mean(age_years), 
           median_age = median(age_years),
           mean_perc_days_drink = mean(perc_days_drink), 
-          median_perc_days_drink = median(perc_days_drink)) %>% 
-  kableExtra::kable(.,digits=1,
-                    caption="Drinking Patterns among Underage Drinkers", 
-                    col.names = c("Minimum Age", "Mean Age", "Median Age", 
-                                  "Avg Percent Days Drank", "Median Percent Days Drank"))
+          median_perc_days_drink = median(perc_days_drink)) 
 
+summ_stats
+
+# now let's look at summary stats of heavy drinkers vs non heavy drinkers: 
+
+# demographic characteristics of heavy drinkers vs non-heavy drinkers
+summ_stats_heavy <- mlda %>% 
+  filter(drinks_alcohol ==1) %>%
+  group_by(., heavy_drinker) %>%
+  summarise(., min_age = min(age_years),
+          mean_age = mean(age_years), 
+          median_age = median(age_years),
+          mean_student = mean(student),
+          n = n())
+summ_stats_heavy
 ```
 
 ## Try yourself 
 
-+ Create a variable that denotes someone as a heavy drinker if they drink more than half the week 
-+ Use the skeleton code below to calculate the share of students who are heavy drinkers that are Black, Hispanic, White, or Male
++ Create a variable that denotes someone as an underage drinker (they are less than 21 years old and drink alcohol)
++ Use the skeleton code below to calculate the share of underage drinkers that are a student, married, male, Hispanic, Black, or white
 
 ```{r, eval=F}
-mutate(mlda, heavy_drinker == ...) %>%
-filter(., heavy_drinker == ... & ...) %>%  
-  summarise(., 
-            ... = mean(...))) 
+summ_stats2 <- mutate(mlda, underage_drinker = if_else()) %>%
+  filter() %>%  
+  summarise() 
 ```
+
+
+## Export as a table 
+\tiny
+```{r, eval=T,echo=T, warning=F,message=F}
+library(kableExtra)
+
+kableExtra::kable(summ_stats_underage,
+      digits=1, caption="Drinking Patterns among Underage Drinkers", 
+      col.names = c("Minimum Age", "Mean Age", "Median Age", "Avg Percent Days Drank", 
+                    "Median Percent Days Drank")) 
+```
+
+
+
+## Age distribution of drinkers vs non-drinkers?
+\tiny
+```{r, fig.height=2.6,fig.width=4}
+viz <- mlda %>% 
+  mutate(drinks_alcohol_string = if_else(drinks_alcohol == 1, "Drinks", "Does Not Drink")) %>%
+  ggplot(aes(x=drinks_alcohol_string, y=age_years)) +
+  geom_boxplot()
+viz
+  
+```
+
+
+
+
 
 ## Run a Model 
 
 + Use a linear probability model to predict the effect of age in years on the likelihood of drinking alcohol 
++ we can use lm()
+
+\tiny
+```{r, echo=T,eval=F}
+# general form
+lpm1 <- lm(formula = y ~ x_1 + x_2 + ... x_n, data = df)
+```
 
 \tiny
 ```{r}
-# on age with a control for gender 
-lpm1 <- lm(formula = drinks_alcohol ~ age_years + male, data = mlda )
+# lpm of years in age on likelihood of drinking alcohol
+lpm1 <- lm(formula = drinks_alcohol ~ age_years, data = mlda )
 summary(lpm1)
 ```
+
 ## Exercise 
-
-+ Now, add an age squared variable to your dataset 
-
-+ Then add additional demographic controls to your model 
-
 \tiny
 
-```{r,eval=T,echo=T}
-lpm2 <- mutate(mlda, age_sq = age_years^2) %>% 
-  lm(formula = drinks_alcohol ~ age_years + age_sq + black + hispanic + male, 
-     data = .)
++ Now, add an age squared and age cubed variable to your dataset and rerun
+
+
+```{r,eval=F,echo=T}
+mlda <- mlda %>% 
+  mutate() 
+
+lpm2 <- lm(formula = , data = )
 ```
+
+
++ Then add additional demographic controls to your model and rerun
+
+
+```{r,eval=F,echo=T}
+
+lpm3 <- lm(formula = drinks_alcohol ~ , data =)
+
+```
+
+
+
+```{r,eval=T,echo=F}
+mlda <- mlda %>% 
+  mutate(age_sq = age_years^2, age_cu = age_years^3) 
+
+lpm2 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu, data = mlda)
+```
+
+
+```{r,eval=T,echo=F}
+
+lpm3 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu + student + male, data=mlda)
+```
+
 
 
 ## Use Stargazer to output your results 
@@ -365,9 +446,16 @@ lpm2 <- mutate(mlda, age_sq = age_years^2) %>%
 ```{r, echo=T,eval=F,message=F,warning=F,results='asis'}
 library(stargazer)
 
+stargazer(lpm1, lpm2, type = "html", 
+          dep.var.labels = "Probabilty of Drinking", header=F)
+```
+
+```{r, echo=F,eval=T,message=F,warning=F,results='asis'}
+library(stargazer)
+
 stargazer(lpm1, lpm2, 
           type = "latex", 
-          dep.var.labels = "Probabilty of Drinking with Controls", 
+          dep.var.labels = "Probabilty of Drinking", 
           header=F)
 ```
 
@@ -376,12 +464,14 @@ stargazer(lpm1, lpm2,
 \tiny
 ```{r, echo=F,eval=T,message=F,warning=F,results='asis'}
 library(stargazer)
-stargazer(lpm1, lpm2, type = "latex", dep.var.labels = "Probabilty of Drinking with Controls", header=F)
+stargazer(lpm1, lpm2, lpm3, type = "latex", dep.var.labels = "Probabilty of Drinking with Controls", header=F)
 ```
 
 ## Visualize the discontinuity 
 
-```{r, warning=F,message=F}
+\tiny
+
+```{r, warning=F,message=F, fig.height=2.6,fig.width=4}
 library(rdrobust)
 rdplot(mlda$drinks_alcohol,mlda$age_years,c=21)
 ```
