@@ -209,13 +209,18 @@ x
 #set working directory
 setwd("~/Documents/workshop-1")
 
-# you will only do this once ever
-# to install the package
+# you will only need to install packages once 
 install.packages("tidyverse")
+install.packages("kableExtra")
+install.packages("stargazer")
+install.packages("knitr")
 
 # you will do this whenever 
 # you need to load in and use tidyverse
 library(tidyverse)
+library(kableExtra)
+library(stargazer)
+library(knitr)
 ```
 
 ```{r, echo=F,eval=T,warning=F,message=F}
@@ -253,6 +258,8 @@ mean(mlda$drinks_alcohol)
 
 !["Source: https://hbctraining.github.io/Intro-to-R/lessons/tidyverse_data_wrangling.html"](Image 2-5-23 at 4.22 PM.jpeg)
 
+## Tidyverse Function Syntax 
+
 ## Transform and explore
 \tiny
 ```{r}
@@ -274,7 +281,7 @@ summ_stats_underage
 ```
 ## Export as a table 
 \tiny
-```{r, eval=T,echo=T}
+```{r, eval=T,echo=T, warning=F,message=F}
 library(kableExtra)
 
 kableExtra::kable(summ_stats_underage,
