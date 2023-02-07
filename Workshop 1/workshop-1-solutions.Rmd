@@ -6,13 +6,26 @@ output:
   html_document: default
 ---
 
-```{r echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE}
+```{r, echo=F, eval=T, message=F,warning=F}
+
 #set working directory
-setwd("~/Documents/workshop-1")
+#setwd("~/Documents/workshop-1")
+setwd("~/Documents/git/Princeton Classes/DDSSI/R Group Workshops/r-for-public-policy/Workshop 1")
 
-#load in package
+# you will only need to install packages once 
+# install.packages("tidyverse")
+# install.packages("kableExtra")
+# install.packages("stargazer")
+# install.packages("knitr")
+# install.packages("rdrobust")
+
+# you will do this whenever 
+# you need to load in and use tidyverse
 library(tidyverse)
-
+library(kableExtra)
+library(stargazer)
+library(knitr)
+library(rdrobust)
 ```
 
 ## Overview 
@@ -25,9 +38,245 @@ This document provides high-level information on whether the minimum legal drink
   
   + Regression output
 
+## Data and Summary Statistics 
+
+The data come from a nationally representative survey, and the data come in the structure below: 
+
 ```{r echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE}
-# read in MLDA data and assign MLDA data 
+# read in and inspect MLDA data 
 mlda <- read_csv("mlda.csv")
+mlda
 ```
+
+
+## Some quick data exploration 
+
+Below is code and output for the share of the population that is a student and the share of a population that drinks alcohol. 
+
+```{r echo=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+mean(mlda$student)
+mean(mlda$drinks_alcohol)
+
+```
+
+
+
+## Transform and explore
+
+Below is some code to generate summary statistics. 
+
+```{r echo=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+# add a new variable for age in years and a heavy drinker variable if they drink more than 75% of days
+mlda <- mutate(mlda, 
+               age_years = 21 + days_21/365, 
+               heavy_drinker = if_else(perc_days_drink > 75, 1, 0))
+
+# filter to just underage drinkers 
+underage <- filter(mlda, days_21 < 0 & drinks_alcohol == 1)
+
+# demographic characteristics of underage drinkers 
+summ_stats_underage <- summarise(underage, 
+          min_age = min(age_years),
+          mean_age = mean(age_years), 
+          median_age = median(age_years),
+          mean_perc_days_drink = mean(perc_days_drink), 
+          median_perc_days_drink = median(perc_days_drink))
+
+summ_stats_underage
+
+```
+
+## The Pipe
+
++ The pipe operate `%>%` takes output from on function and 'pipes' it into another function 
+
+\tiny
+```{r, eval=F}
+x <- paste("A", "String")
+print(x)
+
+print(paste("A", "String"))
+
+paste("A", "String") %>% 
+  print(.)
+```
+
+## Use the pipe operator to combine all of these into one 'dplyr chain'
+
++ The period denotes where the previous output should be the argument in the new function
+
+\tiny
+```{r}
+summ_stats <- mutate(mlda, 
+                     age_years = 21 + days_21/365, 
+                     heavy_drinker = if_else(perc_days_drink > 75, 1, 0)) %>% 
+  filter(., days_21 < 0 & drinks_alcohol == 1) %>%  
+  summarise(.,min_age = min(age_years),
+          mean_age = mean(age_years), 
+          median_age = median(age_years),
+          mean_perc_days_drink = mean(perc_days_drink), 
+          median_perc_days_drink = median(perc_days_drink)) 
+
+summ_stats
+```
+
+## More Summary Statistics
+
+```{r, echo=T, eval=T, message = F, warning=F}
+# now let's look at summary stats of heavy drinkers vs non heavy drinkers: 
+
+# demographic characteristics of heavy drinkers vs non-heavy drinkers
+summ_stats_heavy <- mlda %>% 
+  filter(drinks_alcohol ==1) %>%
+  group_by(heavy_drinker) %>%
+  summarise(min_age = min(age_years),
+          mean_age = mean(age_years), 
+          median_age = median(age_years),
+          mean_student = mean(student),
+          n = n())
+summ_stats_heavy
+```
+
+## Try yourself 
+
++ Create a variable that denotes someone as an underage drinker (they are less than 21 years old and drink alcohol)
++ Use the skeleton code below to calculate the share of underage drinkers vs non-underage drinkers that are a student, married, or male
+
+\tiny
+```{r, eval=F}
+summ_stats2 <- mutate(mlda, 
+                      underage_drinker = if_else(age_years < 21 & drinks_alcohol == 1, 1,0)) %>%
+  group_by(underage_drinker) %>%  
+  summarise(mean_student = mean(student), 
+            mean_married = mean(married), 
+            mean_male = mean(male)) 
+summ_stats2
+```
+
+
+## Export as a table 
+\tiny
+
++ use kable to export as a table 
++ can make aesthetic changes to the table, add labels, etc.
+
+```{r, eval=T,echo=T, warning=F,message=F}
+library(kableExtra)
+
+kable(summ_stats_underage,
+      digits=1, caption="Drinking Patterns among Underage Drinkers", 
+      col.names = c("Minimum Age", "Mean Age", "Median Age", "Avg Percent Days Drank", 
+                    "Median Percent Days Drank")) 
+```
+
+
+
+## Visual: age distribution of drinkers vs non-drinkers?
+
+```{r, fig.height=2.6,fig.width=4}
+viz <- mlda %>% 
+  mutate(drinks_alcohol_string = if_else(drinks_alcohol == 1, "Drinks", "Does Not Drink")) %>%
+  ggplot(aes(x=drinks_alcohol_string, y=age_years)) +
+  geom_boxplot()
+viz
+  
+```
+
+
+
+## Run a Model 
+
++ Use a linear probability model to predict the effect of age in years on the likelihood of drinking alcohol 
++ we can use lm()
+
+## Model our data 
+
+```{r}
+# lpm of years in age on likelihood of drinking alcohol
+lpm1 <- lm(formula = drinks_alcohol ~ age_years, data = mlda )
+summary(lpm1)
+```
+
+## Exercise 
+
++ Now, add an age squared and age cubed variable to your dataset and rerun the model 
+
+```{r,eval=T,echo=F}
+mlda <- mlda %>% 
+  mutate(age_sq = age_years^2, age_cu = age_years^3) 
+
+lpm2 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu, data = mlda)
+```
+
+
+```{r,eval=T,echo=F}
+
+lpm3 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu + student + male, data=mlda)
+```
+
++ inspect your results 
+
+```{r,eval=F,echo=T}
+
+summary(lpm2)
+summary(lpm3)
+
+```
+
+
+
+
+## Use Stargazer to output your results 
+
++ Stargazer is an R package that creates LATEX code, HTML code and ASCII text for well-formatted regression tables, with multiple models side-by-side, and summary stats, etc.; makes changing models and updating tables very easy
+
+```{r, echo=T,eval=F,message=F,warning=F,results='asis'}
+library(stargazer)
+stargazer(lpm1, lpm2, type = "html", 
+          dep.var.labels = "Probabilty of Drinking", header=F)
+```
+
+```{r, echo=F,eval=T,message=F,warning=F,results='asis'}
+library(stargazer)
+
+stargazer(lpm1, lpm2, 
+          type = "html", 
+          dep.var.labels = "Probabilty of Drinking", 
+          header=F)
+```
+
+
+## Output model results 
+
+```{r, echo=F,eval=T,message=F,warning=F,results='asis'}
+library(stargazer)
+stargazer(lpm1, lpm2, lpm3, type = "html", dep.var.labels = "Probabilty of Drinking with Controls", header=F)
+```
+
+## Visualize the discontinuity 
+
+```{r, warning=F,message=F, fig.height=2.6,fig.width=4}
+library(rdrobust)
+rdplot(mlda$drinks_alcohol,mlda$age_years,c=21)
+```
+
+
+## Conclusion and Takeaways 
+
++ The share of students is `r mean(mlda$drinks_alcohol)` and the share who report drinking alcohol is `r mean(mlda$drinks_alcohol)` which should be considered in this analysis. 
+
++ It seems that the minimum legal drinking age has some effect 
+
+
+
+
+
+
+
+
+
+
+
+
 
 

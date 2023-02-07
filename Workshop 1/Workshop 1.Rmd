@@ -285,7 +285,9 @@ kable(df, format = 'latex', booktabs=T, caption = "Useful dplyr functions and sy
 \tiny
 ```{r}
 # add a new variable for age in years and a heavy drinker variable if they drink more than 75% of days
-mlda <- mutate(mlda, age_years = 21 + days_21/365, heavy_drinker = if_else(perc_days_drink > 75, 1, 0))
+mlda <- mutate(mlda, 
+               age_years = 21 + days_21/365, 
+               heavy_drinker = if_else(perc_days_drink > 75, 1, 0))
 
 # filter to just underage drinkers 
 underage <- filter(mlda, days_21 < 0 & drinks_alcohol == 1)
@@ -346,8 +348,8 @@ summ_stats
 # demographic characteristics of heavy drinkers vs non-heavy drinkers
 summ_stats_heavy <- mlda %>% 
   filter(drinks_alcohol ==1) %>%
-  group_by(., heavy_drinker) %>%
-  summarise(., min_age = min(age_years),
+  group_by(heavy_drinker) %>%
+  summarise(min_age = min(age_years),
           mean_age = mean(age_years), 
           median_age = median(age_years),
           mean_student = mean(student),
@@ -358,7 +360,7 @@ summ_stats_heavy
 ## Try yourself 
 
 + Create a variable that denotes someone as an underage drinker (they are less than 21 years old and drink alcohol)
-+ Use the skeleton code below to calculate the share of underage drinkers that are a student, married, male, Hispanic, Black, or white
++ Use the skeleton code below to calculate the share of underage drinkers that are a student, married, or male
 
 \tiny
 ```{r, eval=F}
