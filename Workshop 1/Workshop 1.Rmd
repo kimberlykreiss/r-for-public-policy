@@ -370,10 +370,14 @@ summ_stats2 <- mutate(mlda, underage_drinker = if_else()) %>%
 
 ## Export as a table 
 \tiny
+
++ use kable to export as a table 
++ can make aesthetic changes to the table, add labels, etc.
+
 ```{r, eval=T,echo=T, warning=F,message=F}
 library(kableExtra)
 
-kableExtra::kable(summ_stats_underage,
+kable(summ_stats_underage,
       digits=1, caption="Drinking Patterns among Underage Drinkers", 
       col.names = c("Minimum Age", "Mean Age", "Median Age", "Avg Percent Days Drank", 
                     "Median Percent Days Drank")) 
@@ -468,11 +472,10 @@ lpm3 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu + student + ma
 ## Use Stargazer to output your results 
 \tiny
 
-+ Stargazer is an R package that creates LATEX code, HTML code and ASCII text for well-formatted regression tables, with multiple models side-by-side, and summary stats, etc.
++ Stargazer is an R package that creates LATEX code, HTML code and ASCII text for well-formatted regression tables, with multiple models side-by-side, and summary stats, etc.; makes changing models and updating tables very easy
 
 ```{r, echo=T,eval=F,message=F,warning=F,results='asis'}
 library(stargazer)
-
 stargazer(lpm1, lpm2, type = "html", 
           dep.var.labels = "Probabilty of Drinking", header=F)
 ```
