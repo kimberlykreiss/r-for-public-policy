@@ -13,6 +13,12 @@ header-includes:
 
 # Introduction 
 
+## Introductions 
+
++ Kim 
++ Angela 
++ DDSS
+
 ## R/RStudio/RMarkdown and Why? 
 
 + R is a statistical programming language great for data analysis and data science applications 
@@ -267,7 +273,7 @@ mean(mlda$drinks_alcohol)
 
 ```{r, echo=F,warning=F,message=F}
 library(kableExtra)
-df <- data.frame(Function = c("select()", "mutate()", "filter()", "rename()", "summarise()", "if_else"), 
+df <- data.frame(Function = c("select()", "mutate()", "filter()", "rename()", "summarise()", "if_else()"), 
                  Syntax = c("select(df, var1, var2, ...)", "mutate(df, new_var = old_var + 5)", "filter(df, var1 == value)", "rename(df, new_name = old_name)", 
                             "summarise(df, mean_var1 = mean(var1))", "if_else(condition, true, false)"))
 kable(df, format = 'latex', booktabs=T, caption = "Useful dplyr functions and syntax") %>% 
@@ -278,7 +284,7 @@ kable(df, format = 'latex', booktabs=T, caption = "Useful dplyr functions and sy
 ## Transform and explore
 \tiny
 ```{r}
-# add a new variable for age in years and a heavy drinker variable if they drink more than 50% 
+# add a new variable for age in years and a heavy drinker variable if they drink more than 75% of days
 mlda <- mutate(mlda, age_years = 21 + days_21/365, heavy_drinker = if_else(perc_days_drink > 75, 1, 0))
 
 # filter to just underage drinkers 
@@ -297,7 +303,7 @@ summ_stats_underage
 ```
 
 
-## Use the pipe operator to combine all of these into one 'dplyr chain'
+## The Pipe
 
 + The pipe operate `%>%` takes output from on function and 'pipes' it into another function 
 
@@ -312,12 +318,15 @@ paste("A", "String") %>%
   print(.)
 ```
 
+## Use the pipe operator to combine all of these into one 'dplyr chain'
+
 + The period denotes where the previous output should be the argument in the new function
 
-
-
+\tiny
 ```{r}
-summ_stats <- mutate(mlda, age_years = 21 + days_21/365, heavy_drinker = if_else(perc_days_drink > 75, 1, 0)) %>% 
+summ_stats <- mutate(mlda, 
+                     age_years = 21 + days_21/365, 
+                     heavy_drinker = if_else(perc_days_drink > 75, 1, 0)) %>% 
   filter(., days_21 < 0 & drinks_alcohol == 1) %>%  
   summarise(.,min_age = min(age_years),
           mean_age = mean(age_years), 
@@ -326,7 +335,12 @@ summ_stats <- mutate(mlda, age_years = 21 + days_21/365, heavy_drinker = if_else
           median_perc_days_drink = median(perc_days_drink)) 
 
 summ_stats
+```
 
+## More Summary Statistics
+
+\tiny
+```{r, echo=T, eval=T, message = F, warning=F}
 # now let's look at summary stats of heavy drinkers vs non heavy drinkers: 
 
 # demographic characteristics of heavy drinkers vs non-heavy drinkers
@@ -346,6 +360,7 @@ summ_stats_heavy
 + Create a variable that denotes someone as an underage drinker (they are less than 21 years old and drink alcohol)
 + Use the skeleton code below to calculate the share of underage drinkers that are a student, married, male, Hispanic, Black, or white
 
+\tiny
 ```{r, eval=F}
 summ_stats2 <- mutate(mlda, underage_drinker = if_else()) %>%
   filter() %>%  
@@ -366,7 +381,7 @@ kableExtra::kable(summ_stats_underage,
 
 
 
-## Age distribution of drinkers vs non-drinkers?
+## Visual: age distribution of drinkers vs non-drinkers?
 \tiny
 ```{r, fig.height=2.6,fig.width=4}
 viz <- mlda %>% 
@@ -376,8 +391,6 @@ viz <- mlda %>%
 viz
   
 ```
-
-
 
 
 
@@ -392,6 +405,10 @@ viz
 lpm1 <- lm(formula = y ~ x_1 + x_2 + ... x_n, data = df)
 ```
 
++ y is the dependent variable and the x variables are the dependent variables 
+
+## Model our data 
+
 \tiny
 ```{r}
 # lpm of years in age on likelihood of drinking alcohol
@@ -402,7 +419,7 @@ summary(lpm1)
 ## Exercise 
 \tiny
 
-+ Now, add an age squared and age cubed variable to your dataset and rerun
++ Now, add an age squared and age cubed variable to your dataset and rerun the model 
 
 
 ```{r,eval=F,echo=T}
@@ -413,12 +430,21 @@ lpm2 <- lm(formula = , data = )
 ```
 
 
-+ Then add additional demographic controls to your model and rerun
++ Then add additional demographic controls to your model and rerun the model 
 
 
 ```{r,eval=F,echo=T}
 
 lpm3 <- lm(formula = drinks_alcohol ~ , data =)
+
+```
+
++ inspect your results 
+
+```{r,eval=F,echo=T}
+
+summary(lpm2)
+summary(lpm3)
 
 ```
 
@@ -440,8 +466,9 @@ lpm3 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu + student + ma
 
 
 ## Use Stargazer to output your results 
-
 \tiny
+
++ Stargazer is an R package that creates LATEX code, HTML code and ASCII text for well-formatted regression tables, with multiple models side-by-side, and summary stats, etc.
 
 ```{r, echo=T,eval=F,message=F,warning=F,results='asis'}
 library(stargazer)
@@ -475,6 +502,27 @@ stargazer(lpm1, lpm2, lpm3, type = "latex", dep.var.labels = "Probabilty of Drin
 library(rdrobust)
 rdplot(mlda$drinks_alcohol,mlda$age_years,c=21)
 ```
+
+# Wrap up 
+
+## Today's workshop 
+
++ We covered a lot! 
+  + reproducible research practices 
+  + R Markdown 
+  + the tidyverse 
+  + data transformations 
+  + regression 
+  + data viz 
+
++ Future events 
+  + Workshop from Angela (Maps!)
+  + lightning talks 
+  + speaker series 
+  
++ Email us with ideas 
+  + kk9870@princeton.edu
+  + al49@princeton.edu
 
 # Citations 
 
