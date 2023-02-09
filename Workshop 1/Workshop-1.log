@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.5)  6 FEB 2023 21:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.5)  9 FEB 2023 08:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -833,185 +833,191 @@ LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <6> not available
 
 ] [5
 
+] [6
+
+] [7
+
 ]
-<scatterplot-fitted.png, id=66, 1349.04pt x 1349.04pt>
+<scatterplot-fitted.png, id=83, 1349.04pt x 1349.04pt>
 File: scatterplot-fitted.png Graphic file (type png)
 <use scatterplot-fitted.png>
-Package pdftex.def Info: scatterplot-fitted.png  used on input line 208.
+Package pdftex.def Info: scatterplot-fitted.png  used on input line 227.
 (pdftex.def)             Requested size: 269.14452pt x 269.14452pt.
 
-Overfull \vbox (53.41582pt too high) detected at line 208
+Overfull \vbox (53.41582pt too high) detected at line 227
  []
 
-[6
-
- <./scatterplot-fitted.png>]
-<gg_nyc_pumas copy.png, id=75, 1584.92125pt x 1898.09125pt>
-File: gg_nyc_pumas copy.png Graphic file (type png)
-<use gg_nyc_pumas copy.png>
-Package pdftex.def Info: gg_nyc_pumas copy.png  used on input line 213.
-(pdftex.def)             Requested size: 224.74117pt x 269.14854pt.
-
-Overfull \vbox (23.87541pt too high) detected at line 213
- []
-
-[7
-
- <./gg_nyc_pumas copy.png>]
-<choropleth-map.png, id=84, 1349.04pt x 770.88pt>
-File: choropleth-map.png Graphic file (type png)
-<use choropleth-map.png>
-Package pdftex.def Info: choropleth-map.png  used on input line 222.
-(pdftex.def)             Requested size: 307.2879pt x 175.59308pt.
 [8
 
- <./choropleth-map.png>]
-<network-map.png, id=92, 1349.04pt x 770.88pt>
-File: network-map.png Graphic file (type png)
-<use network-map.png>
-Package pdftex.def Info: network-map.png  used on input line 231.
-(pdftex.def)             Requested size: 307.2879pt x 175.59308pt.
+ <./scatterplot-fitted.png>]
+<gg_nyc_pumas copy.png, id=92, 1584.92125pt x 1898.09125pt>
+File: gg_nyc_pumas copy.png Graphic file (type png)
+<use gg_nyc_pumas copy.png>
+Package pdftex.def Info: gg_nyc_pumas copy.png  used on input line 232.
+(pdftex.def)             Requested size: 224.74117pt x 269.14854pt.
+
+Overfull \vbox (23.87541pt too high) detected at line 232
+ []
+
 [9
 
- <./network-map.png>]
-<web-lollipop-plot-with-R-the-office.png, id=100, 1084.05pt x 650.43pt>
-File: web-lollipop-plot-with-R-the-office.png Graphic file (type png)
-<use web-lollipop-plot-with-R-the-office.png>
-Package pdftex.def Info: web-lollipop-plot-with-R-the-office.png  used on input line 240.
-(pdftex.def)             Requested size: 307.28679pt x 184.37207pt.
+ <./gg_nyc_pumas copy.png>]
+<choropleth-map.png, id=100, 1349.04pt x 770.88pt>
+File: choropleth-map.png Graphic file (type png)
+<use choropleth-map.png>
+Package pdftex.def Info: choropleth-map.png  used on input line 241.
+(pdftex.def)             Requested size: 307.2879pt x 175.59308pt.
 [10
 
- <./web-lollipop-plot-with-R-the-office.png (PNG copy)>]
-<Image 2-4-23 at 1.07 PM.jpeg, id=107, 1222.5675pt x 1644.1425pt>
-File: Image 2-4-23 at 1.07 PM.jpeg Graphic file (type jpg)
-<use Image 2-4-23 at 1.07 PM.jpeg>
-Package pdftex.def Info: Image 2-4-23 at 1.07 PM.jpeg  used on input line 249.
-(pdftex.def)             Requested size: 200.12927pt x 269.13936pt.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 249.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 249.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 249.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 249.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <7> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 249.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <5> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 249.
-
-Overfull \vbox (53.96623pt too high) detected at line 249
- []
-
+ <./choropleth-map.png>]
+<network-map.png, id=108, 1349.04pt x 770.88pt>
+File: network-map.png Graphic file (type png)
+<use network-map.png>
+Package pdftex.def Info: network-map.png  used on input line 250.
+(pdftex.def)             Requested size: 307.2879pt x 175.59308pt.
 [11
 
- <./Image 2-4-23 at 1.07 PM.jpeg>] [12
+ <./network-map.png>]
+<web-lollipop-plot-with-R-the-office.png, id=116, 1084.05pt x 650.43pt>
+File: web-lollipop-plot-with-R-the-office.png Graphic file (type png)
+<use web-lollipop-plot-with-R-the-office.png>
+Package pdftex.def Info: web-lollipop-plot-with-R-the-office.png  used on input line 259.
+(pdftex.def)             Requested size: 307.28679pt x 184.37207pt.
+[12
 
-] [13
+ <./web-lollipop-plot-with-R-the-office.png (PNG copy)>]
+<Image 2-4-23 at 1.07 PM.jpeg, id=123, 1222.5675pt x 1644.1425pt>
+File: Image 2-4-23 at 1.07 PM.jpeg Graphic file (type jpg)
+<use Image 2-4-23 at 1.07 PM.jpeg>
+Package pdftex.def Info: Image 2-4-23 at 1.07 PM.jpeg  used on input line 268.
+(pdftex.def)             Requested size: 200.12927pt x 269.13936pt.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 268.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 268.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 268.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 268.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <7> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 268.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <5> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 268.
+
+Overfull \vbox (53.96623pt too high) detected at line 268
+ []
+
+[13
+
+ <./Image 2-4-23 at 1.07 PM.jpeg>] [14
+
+] [15
 
 ]
-<Image 2-4-23 at 2.11 PM.jpeg, id=128, 2392.94pt x 1792.6975pt>
+<Image 2-4-23 at 2.11 PM.jpeg, id=144, 2392.94pt x 1792.6975pt>
 File: Image 2-4-23 at 2.11 PM.jpeg Graphic file (type jpg)
 <use Image 2-4-23 at 2.11 PM.jpeg>
-Package pdftex.def Info: Image 2-4-23 at 2.11 PM.jpeg  used on input line 272.
+Package pdftex.def Info: Image 2-4-23 at 2.11 PM.jpeg  used on input line 291.
 (pdftex.def)             Requested size: 307.25923pt x 230.18665pt.
-[14
-
- <./Image 2-4-23 at 2.11 PM.jpeg>] [15
-
-]
-<This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png, id=141, 570.13pt x 288.07625pt>
-File: This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png Graphic file (type png)
-<use This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png>
-Package pdftex.def Info: This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png  used on input line 307.
-(pdftex.def)             Requested size: 307.29146pt x 155.26872pt.
 [16
 
- <./This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png>] [17
-
-] [18
+ <./Image 2-4-23 at 2.11 PM.jpeg>] [17
 
 ]
-<Image 2-5-23 at 2.35 PM.jpeg, id=162, 1226.5825pt x 1501.61pt>
+<This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png, id=158, 570.13pt x 288.07625pt>
+File: This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png Graphic file (type png)
+<use This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png>
+Package pdftex.def Info: This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png  used on input line 326.
+(pdftex.def)             Requested size: 307.29146pt x 155.26872pt.
+[18
+
+ <./This-figure-explains-the-basic-idea-of-Reproducible-Research-The-raw-data-needs-to-be.png>] [19
+
+] [20
+
+]
+<Image 2-5-23 at 2.35 PM.jpeg, id=179, 1226.5825pt x 1501.61pt>
 File: Image 2-5-23 at 2.35 PM.jpeg Graphic file (type jpg)
 <use Image 2-5-23 at 2.35 PM.jpeg>
-Package pdftex.def Info: Image 2-5-23 at 2.35 PM.jpeg  used on input line 373.
+Package pdftex.def Info: Image 2-5-23 at 2.35 PM.jpeg  used on input line 392.
 (pdftex.def)             Requested size: 184.37247pt x 225.71295pt.
-[19
+[21
 
  <./Image 2-5-23 at 2.35 PM.jpeg>]
-<tidyverse-method.png, id=170, 389.20406pt x 143.03438pt>
+<tidyverse-method.png, id=186, 389.20406pt x 143.03438pt>
 File: tidyverse-method.png Graphic file (type png)
 <use tidyverse-method.png>
-Package pdftex.def Info: tidyverse-method.png  used on input line 378.
+Package pdftex.def Info: tidyverse-method.png  used on input line 397.
 (pdftex.def)             Requested size: 307.30154pt x 112.93478pt.
-[20
+[22
 
- <./tidyverse-method.png>] [21
+ <./tidyverse-method.png>] [23
 
-] [22
+] [24
 
-] [23
+] [25
+
+] [26
 
 ]
-<Image 2-5-23 at 2.59 PM.jpeg, id=195, 1451.4225pt x 1228.59pt>
+<Image 2-5-23 at 2.59 PM.jpeg, id=218, 1451.4225pt x 1228.59pt>
 File: Image 2-5-23 at 2.59 PM.jpeg Graphic file (type jpg)
 <use Image 2-5-23 at 2.59 PM.jpeg>
-Package pdftex.def Info: Image 2-5-23 at 2.59 PM.jpeg  used on input line 442.
+Package pdftex.def Info: Image 2-5-23 at 2.59 PM.jpeg  used on input line 485.
 (pdftex.def)             Requested size: 307.28818pt x 260.11115pt.
 
-Overfull \vbox (14.83801pt too high) detected at line 442
- []
-
-[24
-
- <./Image 2-5-23 at 2.59 PM.jpeg>]
-<yaml-rmd.jpeg, id=202, 1451.4225pt x 1228.59pt>
-File: yaml-rmd.jpeg Graphic file (type jpg)
-<use yaml-rmd.jpeg>
-Package pdftex.def Info: yaml-rmd.jpeg  used on input line 447.
-(pdftex.def)             Requested size: 307.28818pt x 260.11115pt.
-
-Overfull \vbox (14.83801pt too high) detected at line 447
- []
-
-[25
-
- <./yaml-rmd.jpeg>]
-<code-chunks-rmd.jpeg, id=210, 1451.4225pt x 1228.59pt>
-File: code-chunks-rmd.jpeg Graphic file (type jpg)
-<use code-chunks-rmd.jpeg>
-Package pdftex.def Info: code-chunks-rmd.jpeg  used on input line 452.
-(pdftex.def)             Requested size: 307.28818pt x 260.11115pt.
-
-Overfull \vbox (14.83801pt too high) detected at line 452
- []
-
-[26
-
- <./code-chunks-rmd.jpeg>]
-<text-rmd.jpeg, id=217, 1451.4225pt x 1228.59pt>
-File: text-rmd.jpeg Graphic file (type jpg)
-<use text-rmd.jpeg>
-Package pdftex.def Info: text-rmd.jpeg  used on input line 457.
-(pdftex.def)             Requested size: 307.28818pt x 260.11115pt.
-
-Overfull \vbox (14.83801pt too high) detected at line 457
+Overfull \vbox (14.83801pt too high) detected at line 485
  []
 
 [27
 
- <./text-rmd.jpeg>]
-<Image 2-5-23 at 3.18 PM.jpeg, id=224, 1909.1325pt x 1561.835pt>
-File: Image 2-5-23 at 3.18 PM.jpeg Graphic file (type jpg)
-<use Image 2-5-23 at 3.18 PM.jpeg>
-Package pdftex.def Info: Image 2-5-23 at 3.18 PM.jpeg  used on input line 462.
-(pdftex.def)             Requested size: 307.27356pt x 251.37627pt.
+ <./Image 2-5-23 at 2.59 PM.jpeg>]
+<yaml-rmd.jpeg, id=225, 1451.4225pt x 1228.59pt>
+File: yaml-rmd.jpeg Graphic file (type jpg)
+<use yaml-rmd.jpeg>
+Package pdftex.def Info: yaml-rmd.jpeg  used on input line 490.
+(pdftex.def)             Requested size: 307.28818pt x 260.11115pt.
 
-Overfull \vbox (6.10313pt too high) detected at line 462
+Overfull \vbox (14.83801pt too high) detected at line 490
  []
 
 [28
+
+ <./yaml-rmd.jpeg>]
+<code-chunks-rmd.jpeg, id=232, 1451.4225pt x 1228.59pt>
+File: code-chunks-rmd.jpeg Graphic file (type jpg)
+<use code-chunks-rmd.jpeg>
+Package pdftex.def Info: code-chunks-rmd.jpeg  used on input line 495.
+(pdftex.def)             Requested size: 307.28818pt x 260.11115pt.
+
+Overfull \vbox (14.83801pt too high) detected at line 495
+ []
+
+[29
+
+ <./code-chunks-rmd.jpeg>]
+<text-rmd.jpeg, id=239, 1451.4225pt x 1228.59pt>
+File: text-rmd.jpeg Graphic file (type jpg)
+<use text-rmd.jpeg>
+Package pdftex.def Info: text-rmd.jpeg  used on input line 500.
+(pdftex.def)             Requested size: 307.28818pt x 260.11115pt.
+
+Overfull \vbox (14.83801pt too high) detected at line 500
+ []
+
+[30
+
+ <./text-rmd.jpeg>]
+<Image 2-5-23 at 3.18 PM.jpeg, id=246, 1909.1325pt x 1561.835pt>
+File: Image 2-5-23 at 3.18 PM.jpeg Graphic file (type jpg)
+<use Image 2-5-23 at 3.18 PM.jpeg>
+Package pdftex.def Info: Image 2-5-23 at 3.18 PM.jpeg  used on input line 505.
+(pdftex.def)             Requested size: 307.27356pt x 251.37627pt.
+
+Overfull \vbox (6.10313pt too high) detected at line 505
+ []
+
+[31
 
  <./Image 2-5-23 at 3.18 PM.jpeg>]
 \openout4 = `Workshop-1.vrb'.
@@ -1020,56 +1026,40 @@ Overfull \vbox (6.10313pt too high) detected at line 462
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 6.
 (/Users/Kim/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)) [29
+)) [32
 
 ]
 \openout4 = `Workshop-1.vrb'.
 
-(./Workshop-1.vrb) [30
+(./Workshop-1.vrb) [33
 
 ]
 \openout4 = `Workshop-1.vrb'.
 
-(./Workshop-1.vrb) [31
+(./Workshop-1.vrb) [34
 
 ]
-\openout4 = `Workshop-1.vrb'.
+<Image 2-9-23 at 8.34 AM.jpeg, id=277, 1690.315pt x 1035.87pt>
+File: Image 2-9-23 at 8.34 AM.jpeg Graphic file (type jpg)
+<use Image 2-9-23 at 8.34 AM.jpeg>
+Package pdftex.def Info: Image 2-9-23 at 8.34 AM.jpeg  used on input line 625.
+(pdftex.def)             Requested size: 307.28703pt x 188.31366pt.
+[35
 
-(./Workshop-1.vrb) [32
-
-]
-<Image 2-5-23 at 4.22 PM.jpeg, id=261, 1730.465pt x 762.85pt>
-File: Image 2-5-23 at 4.22 PM.jpeg Graphic file (type jpg)
-<use Image 2-5-23 at 4.22 PM.jpeg>
-Package pdftex.def Info: Image 2-5-23 at 4.22 PM.jpeg  used on input line 610.
-(pdftex.def)             Requested size: 307.27191pt x 135.45628pt.
-[33
-
- <./Image 2-5-23 at 4.22 PM.jpeg>] [34
-
-]
-\openout4 = `Workshop-1.vrb'.
-
-(./Workshop-1.vrb) [35
-
-]
+ <./Image 2-9-23 at 8.34 AM.jpeg>]
 \openout4 = `Workshop-1.vrb'.
 
 (./Workshop-1.vrb) [36
 
 ]
-\openout4 = `Workshop-1.vrb'.
+<Image 2-5-23 at 4.22 PM.jpeg, id=290, 1730.465pt x 762.85pt>
+File: Image 2-5-23 at 4.22 PM.jpeg Graphic file (type jpg)
+<use Image 2-5-23 at 4.22 PM.jpeg>
+Package pdftex.def Info: Image 2-5-23 at 4.22 PM.jpeg  used on input line 658.
+(pdftex.def)             Requested size: 307.27191pt x 135.45628pt.
+[37
 
-(./Workshop-1.vrb) [37
-
-]
-\openout4 = `Workshop-1.vrb'.
-
-(./Workshop-1.vrb
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 7.
-(/Users/Kim/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
-File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)) [38
+ <./Image 2-5-23 at 4.22 PM.jpeg>] [38
 
 ]
 \openout4 = `Workshop-1.vrb'.
@@ -1084,18 +1074,16 @@ File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ]
 \openout4 = `Workshop-1.vrb'.
 
-(./Workshop-1.vrb
-<Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf, id=318, 289.08pt x 187.70125pt>
-File: Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf Graphic file (type pdf)
-<use Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf>
-Package pdftex.def Info: Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf  used on input line 15.
-(pdftex.def)             Requested size: 289.09251pt x 187.70938pt.
-) [41
+(./Workshop-1.vrb) [41
 
- <./Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf>]
+]
 \openout4 = `Workshop-1.vrb'.
 
-(./Workshop-1.vrb) [42
+(./Workshop-1.vrb
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 7.
+(/Users/Kim/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)) [42
 
 ]
 \openout4 = `Workshop-1.vrb'.
@@ -1111,44 +1099,70 @@ Package pdftex.def Info: Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf  
 \openout4 = `Workshop-1.vrb'.
 
 (./Workshop-1.vrb
+<Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf, id=348, 289.08pt x 187.70125pt>
+File: Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf Graphic file (type pdf)
+<use Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf>
+Package pdftex.def Info: Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf  used on input line 15.
+(pdftex.def)             Requested size: 289.09251pt x 187.70938pt.
+) [45
 
-Package hyperref Warning: Ignoring empty anchor on input line 24.
+ <./Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf>]
+\openout4 = `Workshop-1.vrb'.
 
-)
-Overfull \vbox (1.734pt too high) detected at line 998
- []
-
-[45
+(./Workshop-1.vrb) [46
 
 ]
+\openout4 = `Workshop-1.vrb'.
 
-Package hyperref Warning: Ignoring empty anchor on input line 1044.
+(./Workshop-1.vrb) [47
 
+]
+\openout4 = `Workshop-1.vrb'.
 
-Overfull \hbox (31.99968pt too wide) in paragraph at lines 1044--1044
- [] 
- []
-
-[46
+(./Workshop-1.vrb) [48
 
 ]
 \openout4 = `Workshop-1.vrb'.
 
 (./Workshop-1.vrb
-<Workshop-1_files/figure-beamer/unnamed-chunk-25-1.pdf, id=365, 289.08pt x 187.70125pt>
+
+Package hyperref Warning: Ignoring empty anchor on input line 24.
+
+)
+Overfull \vbox (1.734pt too high) detected at line 1048
+ []
+
+[49
+
+]
+
+Package hyperref Warning: Ignoring empty anchor on input line 1094.
+
+
+Overfull \hbox (31.99968pt too wide) in paragraph at lines 1094--1094
+ [] 
+ []
+
+[50
+
+]
+\openout4 = `Workshop-1.vrb'.
+
+(./Workshop-1.vrb
+<Workshop-1_files/figure-beamer/unnamed-chunk-25-1.pdf, id=395, 289.08pt x 187.70125pt>
 File: Workshop-1_files/figure-beamer/unnamed-chunk-25-1.pdf Graphic file (type pdf)
 <use Workshop-1_files/figure-beamer/unnamed-chunk-25-1.pdf>
 Package pdftex.def Info: Workshop-1_files/figure-beamer/unnamed-chunk-25-1.pdf  used on input line 16.
 (pdftex.def)             Requested size: 289.09251pt x 187.70938pt.
-) [47
+) [51
 
- <./Workshop-1_files/figure-beamer/unnamed-chunk-25-1.pdf>] [48
+ <./Workshop-1_files/figure-beamer/unnamed-chunk-25-1.pdf>] [52
 
-] [49
+] [53
 
-] [50
+] [54
 
-] [51
+] [55
 
 ]
 \tf@nav=\write7
@@ -1165,21 +1179,21 @@ Package pdftex.def Info: Workshop-1_files/figure-beamer/unnamed-chunk-25-1.pdf  
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Workshop-1.out' has not changed.
-(rerunfilecheck)             Checksum: 3C7C940DCB4255745C0B7103FC051564;413.
+(rerunfilecheck)             Checksum: 70BAF81E07B7F0ECB0A8CE7202A61BBC;607.
  ) 
 Here is how much of TeX's memory you used:
- 23074 strings out of 478024
- 447652 string characters out of 5839609
+ 23105 strings out of 478024
+ 448136 string characters out of 5839609
  1876346 words of memory out of 5000000
- 42523 multiletter control sequences out of 15000+600000
+ 42541 multiletter control sequences out of 15000+600000
  576460 words of font info for 84 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  101i,11n,104p,515b,546s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/Kim/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Users/Kim/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/Kim/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/Kim/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}</Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss10.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss12.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss8.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsso8.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
-Output written on Workshop-1.pdf (51 pages, 3528109 bytes).
+Output written on Workshop-1.pdf (55 pages, 3812385 bytes).
 PDF statistics:
- 497 PDF objects out of 1000 (max. 8388607)
- 383 compressed objects within 4 object streams
- 154 named destinations out of 1000 (max. 500000)
- 173 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 530 PDF objects out of 1000 (max. 8388607)
+ 410 compressed objects within 5 object streams
+ 166 named destinations out of 1000 (max. 500000)
+ 186 words of extra memory for PDF output out of 10000 (max. 10000000)
 

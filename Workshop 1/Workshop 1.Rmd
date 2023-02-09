@@ -19,6 +19,15 @@ header-includes:
 + Angela 
 + DDSS
 
+## Today 
+
++ An overview of R/RStudio/RMarkdown
++ Framework for reproducible analysis 
++ The tidyverse
++ Apply these by going through a brief class project 
+
+# Overview of R/RStudio/RMarkdown
+
 ## R/RStudio/RMarkdown and Why? 
 
 + R is a statistical programming language great for data analysis and data science applications 
@@ -83,7 +92,7 @@ header-includes:
 + R Script (workshop-1.R)
    +  A file that only runs normal R code
    
-+ RMarkdown Script (workshop-1.Rmd)
++ RMarkdown Script (workshop-1-solutions.Rmd)
    + A different file type that combines code and text to produce a document that includes both 
    
 + Both a .R and .Rmd file are provided 
@@ -134,7 +143,7 @@ header-includes:
 
 ![](tidyverse-method.png)
 
-# Learn!
+# Code 
 
 ## What we will do today 
 
@@ -147,6 +156,18 @@ header-includes:
   + generate summary statistics
   + run a regression model 
   + output results in a summary memo document
+  
+## The task: replicate a project assignment
+
++ You are working for a non-profit organization advocating for safe and healthy lifestyles and you received a request from the director to provide analysis and information on the effect of the minimum legal drinking age on alcohol consumption:
+
+  + Does crossing the MLDA make it more likely someone will drink? 
+  
+  + Is there a jump in consumption in the likelihood of drinking at age 21?
+  
+  + Are there important differences by demographic groups? 
+  
+  + Can you something about the jump at age 21 for different levels of alcohol use (ie, heavy drinkers?)? 
 
 ## Files 
 
@@ -161,7 +182,8 @@ header-includes:
 + workshop-1-solutions.Rmd
 
   + the same RMarkdown code file as above, but with all the code and solutions 
-  
+
+
 ## RMarkdown File Structure: Overview 
 
 ![](Image 2-5-23 at 2.59 PM.jpeg)
@@ -251,10 +273,13 @@ mlda
 
 + Use the viewer to view more of the data (click on it or run code below)
 
-
 ```{r echo=T, eval=F, message=F,warning=F}
 View(mlda)
 ```
+
+## Data Dictionary 
+
+![](Image 2-9-23 at 8.34 AM.jpeg)
 
 ## Some quick data exploration 
 
@@ -411,7 +436,7 @@ viz
 lpm1 <- lm(formula = y ~ x_1 + x_2 + ... x_n, data = df)
 ```
 
-+ y is the dependent variable and the x variables are the dependent variables 
++ y is the dependent variable and the x variables are the independent variables 
 
 ## Model our data 
 
@@ -429,7 +454,7 @@ summary(lpm1)
 
 
 ```{r,eval=F,echo=T}
-mlda <- mlda %>% 
+mlda2 <- mlda %>% 
   mutate() 
 
 lpm2 <- lm(formula = , data = )
@@ -457,16 +482,16 @@ summary(lpm3)
 
 
 ```{r,eval=T,echo=F}
-mlda <- mlda %>% 
+mlda2 <- mlda %>% 
   mutate(age_sq = age_years^2, age_cu = age_years^3) 
 
-lpm2 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu, data = mlda)
+lpm2 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu, data = mlda2)
 ```
 
 
 ```{r,eval=T,echo=F}
 
-lpm3 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu + student + male, data=mlda)
+lpm3 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu + student + male, data=mlda2)
 ```
 
 
