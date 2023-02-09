@@ -322,8 +322,10 @@ summ_stats_underage <- summarise(underage,
           min_age = min(age_years),
           mean_age = mean(age_years), 
           median_age = median(age_years),
-          mean_perc_days_drink = mean(perc_days_drink), 
-          median_perc_days_drink = median(perc_days_drink))
+          mean_heavy_drinker = mean(heavy_drinker), 
+          mean_white = mean(white), 
+          mean_black = mean(black), 
+          mean_hispanic = mean(hispanic))
 
 summ_stats_underage
 
@@ -405,9 +407,9 @@ summ_stats2 <- mutate(mlda, underage_drinker = if_else()) %>%
 library(kableExtra)
 
 kable(summ_stats_underage,
-      digits=1, caption="Drinking Patterns among Underage Drinkers", 
-      col.names = c("Minimum Age", "Mean Age", "Median Age", "Avg Percent Days Drank", 
-                    "Median Percent Days Drank")) 
+      digits=2, caption="Drinking Patterns among Underage Drinkers", 
+      col.names = c("Min Age", "Mean Age", "Med Age", "Heavy Drinker", 
+                    "White", "Black", "Hispanic")) 
 ```
 
 

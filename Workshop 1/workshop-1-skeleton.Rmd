@@ -6,7 +6,6 @@ output:
   html_document: default
 ---
 
-
 ```{r, echo=F, eval=F, message=F,warning=F}
 #set working directory
 setwd("~/Documents/workshop-1")
@@ -20,7 +19,6 @@ install.packages("rdrobust")
 ```
 
 ```{r, echo=F, eval=T, message=F,warning=F}
-
 # you will do this whenever 
 # you need to load in and use these packages
 library(tidyverse)
@@ -30,20 +28,19 @@ library(knitr)
 library(rdrobust)
 ```
 
+## Overview
 
-## Overview 
+This document provides high-level information on whether the minimum legal drinking age (MLDA) makes any difference in the likelihood of consuming alcohol. It includes:
 
-This document provides high-level information on whether the minimum legal drinking age (MLDA) makes any difference in the likelihood of consuming alcohol. It includes: 
+-   Code to read in and clean data
 
-  + Code to read in and clean data 
-  
-  + Summary Statistics 
-  
-  + Regression output
+-   Summary Statistics
 
-## Data and Summary Statistics 
+-   Regression output
 
-The data come from a nationally representative survey, and the data come in the structure below: 
+## Data and Summary Statistics
+
+The data come from a nationally representative survey, and the data come in the structure below:
 
 ```{r echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE}
 # read in and inspect MLDA data 
@@ -55,21 +52,20 @@ mlda
 View(mlda)
 ```
 
+## Some quick data exploration
 
-## Some quick data exploration 
-
-Below is code and output for the share of the population that is a student and the share of a population that drinks alcohol. 
+Below is code and output for the share of the population that is a student and the share of a population that drinks alcohol.
 
 ```{r echo=FALSE, eval=FALSE, warning=FALSE, message=FALSE}
 mean(mlda$student)
 mean(mlda$drinks_alcohol)
 ```
 
-+ The share who drink alcohol is `r round(mean(mlda$drinks_alcohol),2)` and the share who are students is `r round(mean(mlda$student),2)`.
+-   The share who drink alcohol is `r round(mean(mlda$drinks_alcohol),2)` and the share who are students is `r round(mean(mlda$student),2)`.
 
 ## Transform and explore
 
-Below is some code to generate summary statistics. 
+Below is some code to generate summary statistics.
 
 ```{r echo=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
 # add a new variable for age in years and a heavy drinker variable if they drink more than 75% of days
@@ -96,7 +92,9 @@ summ_stats_underage
 
 ## The Pipe
 
-+ The pipe operate `%>%` takes output from on function and 'pipes' it into another function 
+-   The pipe operate `%>%` takes output from on function and 'pipes' it into another function
+
+
 
 ```{r, eval=F}
 x <- paste("A", "String")
@@ -110,7 +108,9 @@ paste("A", "String") %>%
 
 ## Use the pipe operator to combine all of these into one 'dplyr chain'
 
-+ The period denotes where the previous output should be the argument in the new function
+-   The period denotes where the previous output should be the argument in the new function
+
+
 
 ```{r}
 summ_stats <- mutate(mlda, 
@@ -145,28 +145,26 @@ summ_stats_heavy <- mlda %>%
 summ_stats_heavy
 ```
 
-## Try yourself 
+## Try yourself
 
-+ Create a variable that indicates if someone is a student that drinks (they are a student and they drink)
-+ Use the skeleton code below to calculate the share of student drinkers that are male, white, black, hispanic
+-   Create a variable that indicates if someone is a student that drinks (they are a student and they drink)
+-   Use the skeleton code below to calculate the share of student drinkers that are male, white, black, hispanic
+
 
 
 ```{r, eval=T, echo=F}
 summ_stats2 <- mutate(mlda, 
-                      student_drinker = if_else(student==1 & drinks_alcohol == 1, 1,0)) %>%
-  group_by(student_drinker) %>%  
-  summarise(mean_male = mean(male), 
-            mean_white = mean(white), 
-            mean_black = mean(black),
-            mean_hispanic = mean(hispanic)) 
+                      student_drinker = if_else() %>%
+  group_by() %>%  
+  summarise() 
+  
 summ_stats2
 ```
 
+## Export as a table
 
-## Export as a table 
-
-+ use kable to export as a table 
-+ can make aesthetic changes to the table, add labels, etc.
+-   use kable to export as a table
+-   can make aesthetic changes to the table, add labels, etc.
 
 ```{r, eval=T,echo=F, warning=F,message=F}
 library(kableExtra)
@@ -176,8 +174,6 @@ kable(summ_stats_underage,
       col.names = c("Min Age", "Mean Age", "Med Age", "Heavy Drinker", 
                     "White", "Black", "Hispanic")) 
 ```
-
-
 
 ## Visual: age distribution of drinkers vs non-drinkers?
 
@@ -190,14 +186,12 @@ viz
   
 ```
 
+## Run a Model
 
+-   Use a linear probability model to predict the effect of age in years on the likelihood of drinking alcohol
+-   we can use lm()
 
-## Run a Model 
-
-+ Use a linear probability model to predict the effect of age in years on the likelihood of drinking alcohol 
-+ we can use lm()
-
-## Model our data 
+## Model our data
 
 ```{r, echo=T, eval=TRUE}
 # lpm of years in age on likelihood of drinking alcohol
@@ -208,24 +202,23 @@ lpm1 <- lm(formula = drinks_alcohol ~ age_years, data = mlda )
 summary(lpm1)
 ```
 
-## Exercise 
+## Exercise
 
-+ Now, add an age squared and age cubed variable to your dataset and rerun the model 
+-   Now, add an age squared and age cubed variable to your dataset and rerun the model
 
 ```{r,eval=T,echo=F}
 mlda2 <- mlda %>% 
-  mutate(age_sq = age_years^2, age_cu = age_years^3) 
+  mutate(age_sq = , age_cu = ) 
 
-lpm2 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu, data = mlda2)
+lpm2 <- lm(formula = , data = )
 ```
-
 
 ```{r,eval=T,echo=F}
 
-lpm3 <- lm(formula = drinks_alcohol ~ age_years + age_sq + age_cu + student + male, data=mlda2)
+lpm3 <- lm(formula =, data=)
 ```
 
-+ inspect your results 
+-   inspect your results
 
 ```{r,eval=F,echo=F}
 
@@ -234,12 +227,9 @@ summary(lpm3)
 
 ```
 
+## Use Stargazer to output your results
 
-
-
-## Use Stargazer to output your results 
-
-Below is the output from several statistical models. As you can see, it appears that the minimum legal drinking age seems to have an effect on the likelihood of consuming alcohol. 
+Below is the output from several statistical models. As you can see, it appears that the minimum legal drinking age seems to have an effect on the likelihood of consuming alcohol.
 
 ```{r, echo=F,eval=F,message=F,warning=F,results='asis'}
 library(stargazer)
@@ -256,36 +246,20 @@ stargazer(lpm1, lpm2,
           header=F)
 ```
 
-
-## Output model results 
+## Output model results
 
 ```{r, echo=F,eval=T,message=F,warning=F,results='asis'}
 library(stargazer)
 stargazer(lpm1, lpm2, lpm3, type = "html", dep.var.labels = "Probabilty of Drinking with Controls", header=F)
 ```
 
-## Visualize the discontinuity 
+## Visualize the discontinuity
 
 ```{r, warning=F,message=F, echo=F,fig.height=2.6,fig.width=4}
 library(rdrobust)
 rdplot(mlda$drinks_alcohol,mlda$age_years,c=21)
 ```
 
+## Conclusion and Takeaways
 
-## Conclusion and Takeaways 
-
-+ It seems that the minimum legal drinking age has some effect 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-   It seems that the minimum legal drinking age has some effect

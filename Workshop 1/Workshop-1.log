@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.5)  9 FEB 2023 08:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.5)  9 FEB 2023 09:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1129,17 +1129,17 @@ Package pdftex.def Info: Workshop-1_files/figure-beamer/unnamed-chunk-14-1.pdf  
 Package hyperref Warning: Ignoring empty anchor on input line 24.
 
 )
-Overfull \vbox (1.734pt too high) detected at line 1048
+Overfull \vbox (1.734pt too high) detected at line 1051
  []
 
 [49
 
 ]
 
-Package hyperref Warning: Ignoring empty anchor on input line 1094.
+Package hyperref Warning: Ignoring empty anchor on input line 1097.
 
 
-Overfull \hbox (31.99968pt too wide) in paragraph at lines 1094--1094
+Overfull \hbox (31.99968pt too wide) in paragraph at lines 1097--1097
  [] 
  []
 
@@ -1190,7 +1190,7 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  101i,11n,104p,515b,546s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/Kim/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Users/Kim/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/Kim/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/Kim/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}</Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss10.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss12.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss8.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsso8.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></Users/Kim/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
-Output written on Workshop-1.pdf (55 pages, 3812385 bytes).
+Output written on Workshop-1.pdf (55 pages, 3813287 bytes).
 PDF statistics:
  530 PDF objects out of 1000 (max. 8388607)
  410 compressed objects within 5 object streams
