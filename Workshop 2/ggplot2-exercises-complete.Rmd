@@ -1,0 +1,272 @@
+---
+title: 'Creating Engaging Plots in ggplot2: Exercises'
+author: "Angela Li"
+date: "2023-02-24"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load Gapminder data
+
+```{r wd, warning=F}
+# Load any packages needed
+library(tidyverse)
+
+# Set working directory (in fact, unnecssary when using R projects!) and read in data
+gapminder <- read.csv("gapminder.csv")
+```
+
+We'll start with a few commands to explore our data. This data is from [Gapminder](https://www.gapminder.org/data/documentation/), and has been edited for use in [open-source Data Carpentry materials](https://datacarpentry.org/r-intro-geospatial/). (If you want to know more, there's a [2006 TED talk](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen) with this data.) Our research question is how life expectancy at birth compares across countries over time.
+ 
+The codebook from the survey 
+can be found online [here](https://addhealth.cpc.unc.edu/documentation/codebook-explorer/#/variable_collection/1573).
+
+Columns in the dataset include:
+
+- `country`
+- `continent`
+- `year`
+- `lifeExp` or life expectancy
+- `pop` or population
+- `gdpPercap` or GDP per capita
+
+```{r explore-data}
+# Take a look at the data
+head(gapminder)
+
+# Find unique countries represented in the data
+unique(gapminder$country)
+
+# Filter to just one county for now
+us <- filter(gapminder, country == "United States")
+```
+
+### Your Turn
+
+Let's learn about this data! Answer the following:
+
+1. What's the year span represented in the country you chose?
+2. What does each row mean? Is this "long" or "wide" data?
+
+### Your Turn - Bonus
+
+Debugging is a large part of learning to code. Fix the following pieces of 
+incorrect code! (Note - change eval = T so that the chunk runs when knitting the doc)
+
+```{r debug, eval=F}
+# Fix the following pieces of incorrect code!
+summary(gapmider)
+
+read.cvs("gapminder.csv")
+
+filter(gapminder, county = "United States")
+
+ggplot(gapminder, aes(x = age)) %>%
+  geom_histogram()
+```
+
+# Visualizing our data with ggplot2
+
+We'll start by looking at the trend in life expectancy for one country in our dataset before moving to multiple countries.
+
+```{r viz-example}
+# We start by specifying our data
+ggplot(data = us) 
+
+# We then map our *aes*thetics to axes
+ggplot(data = us, aes(x = year, y = lifeExp))
+
+# Then add the **geom**etry (or geometries) - note the plus sign!
+ggplot(data = us, aes(x = year, y = lifeExp)) +
+  geom_point()
+
+ggplot(data = us, aes(x = year, y = lifeExp)) +
+  geom_point() +
+  geom_line()
+
+# Add informative labels (and maybe a subtitle or caption)
+ggplot(data = us, aes(x = year, y = lifeExp)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Year",
+       y = "Life expectancy",
+       title = "Life expectancy in the US",
+       subtitle = "Increased between 1952 and 2007",
+       caption = "Source: Gapminder.org")
+
+# Adjust the theme
+ggplot(data = us, aes(x = year, y = lifeExp)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Year",
+       y = "Life expectancy",
+       title = "Life expectancy in the US",
+       subtitle = "Increased between 1952 and 2007",
+       caption = "Source: Gapminder.org") +
+  theme_bw()
+
+# Adjust limits
+ggplot(data = us, aes(x = year, y = lifeExp)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Year",
+       y = "Life expectancy",
+       title = "Life expectancy in the US",
+       subtitle = "Increased between 1952 and 2007",
+       caption = "Source: Gapminder.org") +
+  theme_bw() +
+  ylim(0, 80)
+```
+
+### Your Turn
+
+Visualize the change in **population** for your country of interest using ggplot2. 
+
+```{r viz-prac}
+ggplot(data = us, aes(x = year, y = pop)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "",
+       y = "",
+       title = "Population in the US",
+       subtitle = "Steady increase between 1952 and 2007",
+       caption = "Source: Gapminder.org") +
+  theme_bw()
+```
+
+Try making a bar chart instead of a line graph of population (hint: use `geom_col`). Is this the best visualization for this data? Why not?
+
+```{r viz-prac-2}
+ggplot(data = us, aes(x = year, y = pop)) +
+  geom_col() +
+  labs(x = "",
+       y = "",
+       title = "Population in the US",
+       subtitle = "Steady increase between 1952 and 2007",
+       caption = "Source: Gapminder.org") +
+  theme_bw()
+```
+
+## Plotting multiple countries
+
+We want to compare multiple countries, so let's include 5 from multiple continents in our dataset.
+
+```{r}
+gap5 <- gapminder %>%
+  filter(country %in% c("Sierra Leone", "United States", "Italy", "Nigeria", "India"))
+```
+
+Then, visualize the subset of the data:
+
+```{r}
+ggplot(data = gap5, aes(x = year, y = lifeExp, color = country)) +
+  geom_smooth() +
+  geom_point(alpha = 0.5) + # alpha makes points transparent
+  labs(x = "",
+       y = "Life expectancy at birth (years)",
+       title = "Life expectancy over time",
+       subtitle = "While generally increasing, HIV/AIDS impacted outcomes",
+       caption = "Source: Gapminder.org") +
+  theme_minimal() +
+  theme(legend.title = element_blank()) + 
+  guides(color=guide_legend(override.aes=list(fill=NA)))
+```
+
+### Your Turn
+
+Create a plot for **population** over time for 5 countries in the dataset using ggplot2.
+
+```{r pop-viz}
+
+```
+
+### Your Turn - Bonus
+
+You can also create small multiples of graphs, where each country is represented in its own graph.
+
+Poke around the [ggplot2 book on facetting](https://ggplot2-book.org/getting-started.html#qplot-faceting) and see if you can figure out how to make "small multiples" for the trend in each country.
+
+```{r}
+ggplot(data = gap5, aes(x = year, y = lifeExp)) +
+  geom_smooth() +
+  labs(x = "",
+       y = "Life expectancy at birth (years)",
+       title = "Life expectancy over time",
+       caption = "Source: Gapminder.org") +
+  theme(legend.title = element_blank()) + 
+  theme_bw() +
+  guides(color=guide_legend(override.aes=list(fill=NA))) + 
+  facet_wrap(~country)
+```
+
+## Bar Charts
+
+Now, we will subset to a given year and compare an outcome of our choice in 5 countries.
+
+```{r}
+gap5 %>%
+  ggplot(aes(x = country, y = gdpPercap)) +
+  geom_col()
+```
+
+### Your Turn
+
+Improve on the plot we created to make it more engaging and informative to the viewer. If you want, try the `colors()` function in the R console to see the color names available. The [R Graph Gallery](https://r-graph-gallery.com/42-colors-names.html) also provides guidance.
+
+```{r pop-viz2}
+options(scipen = 999)
+
+gap5 %>%
+  ggplot(aes(x = country, y = gdpPercap)) +
+  geom_col(fill = "darkorange3") + # Tr
+  labs(x = "",
+       y = "",
+       title = "GDP Per Capita by Country",
+       subtitle = "US and Italy have the highest GDP per capita in 2007",
+       caption = "Source: Gapminder.org") +
+  theme_bw()
+```
+
+### Your Turn - Bonus
+
+The figure defaults in R don't order the bars in a meaningful way. There are two tips that will help with this:
+
+1. Flipping the x and y axes: `+ coord_flip()`
+2. Ordering bars in a meaningful way, ie by the levels, not alphabetically `x = fct_reorder(<things to be reordered>, <thing to reorder it by>)`
+
+Try implementing this to reorder the bars!
+
+```{r}
+gap5 %>%
+  ggplot(aes(x = country, y = gdpPercap)) +
+  geom_col() +
+  coord_flip() +
+  theme_bw()
+```
+
+```{r}
+gap5 %>%
+  ggplot(aes(x = fct_reorder(country, gdpPercap), y = gdpPercap)) +
+  geom_col() +
+  coord_flip()
+```
+
+There's much more to ggplot2, but for that, I direct you to some much better guides that have been written...
+
+### Your Turn: Explore Open Source Resources
+
+Take 5 minutes and look through the resources listed below. Which one of these look the most useful for your work?
+
+- [Posit Cloud Primers - Visualize Data](https://posit.cloud/learn/primers/3): Interactive online tutorials to learn data viz in R, from the makers of RStudio
+- [R Graphics Cookbook, 2nd edition](https://r-graphics.org/): Gives you recipes for creating various graphs in R - https://r-graphics.org/
+- [ggplot2 book](https://ggplot2-book.org/): Nitty gritty on how ggplot2 all works, from the creator of ggplot2
+- [Data Visualization: A Practical Introduction]: Online book by Soc Prof Kieran Healy walking you through exercises in R
+- [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/): Less specific to ggplot2, more on best practices to learn data viz
+- [Data Visualization course by Andrew Heiss](https://datavizs21.classes.andrewheiss.com/): Designed as an entire course in R for policy school students
+
+### Your Turn - Bonus
+
+Schedule in an hour on your calendar (possibly over break) to explore that resource. 
